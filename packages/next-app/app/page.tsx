@@ -1,6 +1,5 @@
 'use client'; // for Next.js app router
-import VerifyButton from './components/verifybutton';
-import { useVerification, useConnectedAccount } from '@/context/AppContext';
+import { useConnectedAccount, useVerification } from '@/context/AppContext';
 
 export default function Home() {
     const { verifyMessage } = useVerification();
