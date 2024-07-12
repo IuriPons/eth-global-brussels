@@ -1,6 +1,5 @@
 import ConnectButton from './components/connectbutton';
 import VerifyButton from './components/verifybutton';
-
 export default function Home() {
     return (
         <main>
