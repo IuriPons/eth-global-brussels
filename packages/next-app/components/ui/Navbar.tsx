@@ -6,16 +6,12 @@ const Navbar = () => {
     return (
         <>
             <AppBar position='static'>
-                <Toolbar>
-                    <Typography
-                        variant='h6'
-                        component='a'
-                        href='/'
-                        sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
-                    >
+                <Toolbar sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography variant='h6' component='a' href='/'>
                         My App
-                        <ConnectButton />
                     </Typography>
+
+                    <ConnectButton />
                 </Toolbar>
             </AppBar>
         </>
