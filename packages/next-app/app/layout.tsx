@@ -2,6 +2,7 @@ import Navbar from '@/components/ui/Navbar';
 import { ThemeProvider } from '@/components/ui/ThemeProvider';
 import { config } from '@/config';
 import Web3ModalProvider from '@/context';
+import { AppProvider } from '@/context/AppContext';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { headers } from 'next/headers';
@@ -26,8 +27,10 @@ export default function RootLayout({
             <body className={inter.className}>
                 <ThemeProvider>
                     <Web3ModalProvider initialState={initialState}>
-                        <Navbar />
-                        {children}
+                        <AppProvider>
+                            <Navbar />
+                            {children}
+                        </AppProvider>
                     </Web3ModalProvider>
                 </ThemeProvider>
             </body>
