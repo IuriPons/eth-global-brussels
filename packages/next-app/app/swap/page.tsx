@@ -41,12 +41,12 @@ const PoolCreationPage = () => {
     };
 
     const handleTokenSelect1 = tokenName => {
-        setSelectedTokenSell(tokenName.toString().toLowerCase()); // For Sell input
+        setSelectedTokenSell(tokenName); // For Sell input
         setIsModalOpen1(false); // Close the modal after selecting a token
     };
 
     const handleTokenSelect2 = tokenName => {
-        setSelectedTokenBuy(tokenName.toString().toLowerCase()); // For Buy input
+        setSelectedTokenBuy(tokenName); // For Buy input
         setIsModalOpen2(false); // Close the modal after selecting a token
     };
 
