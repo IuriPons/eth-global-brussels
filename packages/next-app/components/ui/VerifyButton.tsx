@@ -24,7 +24,7 @@ export default function VerifyButton() {
             verification_level={VerificationLevel.Orb} //VerificationLevel.Device?
         >
             {({ open }) => (
-                <button className='bg-green-500 text-white px-3 py-1 rounded' onClick={open}>
+                <button className='verify-button px-3 py-1' onClick={open}>
                     Verify with World ID
                 </button>
             )}

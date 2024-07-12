@@ -1,3 +1,50 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.coin-box {
+    width: 436px;
+    height: 643px;
+    max-width: 436px;
+    border-radius: 25px;
+    border: 1px solid rgb(64, 61, 63);
+    margin-bottom: 15px;
+    box-shadow: rgb(255, 255, 255) 0px 2px 20px;
+}
+
+.verify-button {
+    color: white;
+    background-color: black;
+    border-radius: 20px;
+    border: 1px solid rgb(64, 61, 63);
+}
+
+.select-button {
+    color: black;
+    border: 1px solid rgb(64, 61, 63);
+    border-radius: 20px;
+}
+
+.modal-container {
+    text-align: center;
+}
+
+.modal-close-button {
+    margin-top: 20px;
+}
+
+.token-item {
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid rgb(64, 61, 63);
+    cursor: pointer;
+}
+
+@media screen and (max-width: 480px) {
+    .coin-box {
+        width: 80%;
+        max-width: 100%;
+        height: 550px;
+        margin: 0 auto;
+    }
+}

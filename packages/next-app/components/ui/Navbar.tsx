@@ -13,7 +13,7 @@ export default function Navbar() {
 
     return (
         <>
-            <AppBar position='static'>
+            <AppBar position='static' sx={{ backgroundColor: '#510CA7' }}>
                 <Toolbar sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                     <div className='flex items-center space-x-4'>
                         <Link href='/' passHref>
@@ -25,8 +25,8 @@ export default function Navbar() {
                         <Link href='/pools' passHref>
                             <button>POOLS</button>
                         </Link>
-                        <Link href='/swipe' passHref>
-                            <button>SWIPE</button>
+                        <Link href='/swap' passHref>
+                            <button>SWAP</button>
                         </Link>
                     </div>
                     <div className='flex items-center space-x-4'>
