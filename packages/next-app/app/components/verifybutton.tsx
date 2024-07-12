@@ -23,7 +23,7 @@ export default function VerifyButton() {
             handleVerify={handleVerify}
             verification_level={VerificationLevel.Orb} //VerificationLevel.Device?
         >
-            {({ open }) => <button onClick={open}>Verify with World ID</button>}
+            {({ open }) => <button className="bg-green-500 text-white px-3 py-1 rounded" onClick={open}>Verify with World ID</button>}
         </IDKitWidget>
     );
 }

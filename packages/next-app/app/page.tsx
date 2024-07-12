@@ -8,7 +8,6 @@ export default function Home() {
 
     return (
         <div>
-            <VerifyButton />
             {verifyMessage ? (
                 <div>
                     <p>Merkle Root: {verifyMessage.merkle_root}</p>
