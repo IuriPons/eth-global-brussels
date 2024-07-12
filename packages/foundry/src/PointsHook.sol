@@ -12,9 +12,18 @@ import {IPoolManager} from "v4-core/interfaces/IPoolManager.sol";
 
 import {Hooks} from "v4-core/libraries/Hooks.sol";
 
+import { ByteHasher } from './helpers/ByteHasher.sol';
+
+import { IWorldID } from "./interfaces/IWorldID.sol";
+
 contract PointsHook is BaseHook, ERC20 {
     using CurrencyLibrary for Currency;
     using BalanceDeltaLibrary for BalanceDelta;
+
+    using ByteHasher for bytes;
+
+    /// @dev The contract's external nullifier hash
+	uint256 internal immutable externalNullifier;
 
     mapping(address => address) public referredBy;
 
@@ -23,8 +32,15 @@ contract PointsHook is BaseHook, ERC20 {
     constructor(
         IPoolManager _manager,
         string memory _name,
-        string memory _symbol
-    ) BaseHook(_manager) ERC20(_name, _symbol, 18) {}
+        string memory _symbol,
+        IWorldID _worldId,
+        string memory _appId,
+        string memory _actionId
+
+    ) BaseHook(_manager) ERC20(_name, _symbol, 18) {
+
+        externalNullifier = abi.encodePacked(abi.encodePacked(_appId).hashToField(), _actionId).hashToField();
+    }
 
     function getHookPermissions()
         public
@@ -63,6 +79,8 @@ contract PointsHook is BaseHook, ERC20 {
 
         // We only mint points if user is buying TOKEN with ETH
         if (!swapParams.zeroForOne) return (this.afterSwap.selector, 0);
+
+        //require(verify(hookData), "Invalid KYC");
 
         // Mint points equal to 20% of the amount of ETH they spent
         // Since its a zeroForOne swap:
@@ -133,5 +151,15 @@ contract PointsHook is BaseHook, ERC20 {
         address referree
     ) public pure returns (bytes memory) {
         return abi.encode(referrer, referree);
+    }
+
+    function verify(bytes calldata hookData) external returns(bool){
+
+        (uint256 root,
+		uint256 groupId,
+		uint256 signalHash,
+		uint256 nullifierHash,
+		uint256[8] memory proof) = abi.decode(hookData, (uint256, uint256, uint256, uint256, uint256[8]));
+
     }
 }

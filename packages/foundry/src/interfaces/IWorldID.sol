@@ -18,4 +18,7 @@ interface IWorldID {
 		uint256 externalNullifierHash,
 		uint256[8] calldata proof
 	) external view;
+
+	function routeFor(uint256 groupNumber) external view returns (IWorldID);
+    
 }

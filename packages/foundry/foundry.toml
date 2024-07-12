@@ -10,3 +10,6 @@ evm_version = "cancun"
 optimizer_runs = 800
 via_ir = false
 ffi = true
+
+[rpc_endpoints]
+default = "http://localhost:8545" # Localhost
