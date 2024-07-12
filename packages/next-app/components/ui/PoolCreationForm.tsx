@@ -18,23 +18,34 @@ const PoolCreationForm = () => {
         fee: 300,
         hook: '',
     });
-    const [error, setError] = useState({ error: false, message: '' });
 
     const { coin1, coin2, fee, hook } = poolCreationInfo;
 
     const handleCoin1Change = (e: SelectChangeEvent) => {
-        const coin = COINS.find(coin => coin.symbol === e.target.value);
+        const newCoin1 = COINS.find(coin => coin.symbol === e.target.value);
 
-        if (coin) {
-            setPoolCreationInfo({ ...poolCreationInfo, coin1: coin });
+        if (newCoin1) {
+            let newCoin2 = coin2;
+
+            if (newCoin1.symbol === coin2.symbol) {
+                newCoin2 = coin1;
+            }
+
+            setPoolCreationInfo({ ...poolCreationInfo, coin1: newCoin1, coin2: newCoin2 });
         }
     };
 
     const handleCoin2Change = (e: SelectChangeEvent) => {
-        const coin = COINS.find(coin => coin.symbol === e.target.value);
+        const newCoin2 = COINS.find(coin => coin.symbol === e.target.value);
 
-        if (coin) {
-            setPoolCreationInfo({ ...poolCreationInfo, coin2: coin });
+        if (newCoin2) {
+            let newCoin1 = coin1;
+
+            if (newCoin2.symbol === coin1.symbol) {
+                newCoin1 = coin2;
+            }
+
+            setPoolCreationInfo({ ...poolCreationInfo, coin1: newCoin1, coin2: newCoin2 });
         }
     };
 
