@@ -4,7 +4,7 @@ import { Box } from '@mui/material';
 // Components
 import PoolCreationForm from '@/components/ui/PoolCreationForm';
 
-const PoolCreation = () => {
+const CreatePool = () => {
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
             <PoolCreationForm />
@@ -12,4 +12,4 @@ const PoolCreation = () => {
     );
 };
 
-export default PoolCreation;
+export default CreatePool;

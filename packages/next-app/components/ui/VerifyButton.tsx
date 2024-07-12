@@ -1,6 +1,6 @@
 'use client'; // for Next.js app router
-import { IDKitWidget, VerificationLevel, ISuccessResult } from '@worldcoin/idkit';
 import { useVerification } from '@/context/AppContext';
+import { IDKitWidget, VerificationLevel } from '@worldcoin/idkit';
 
 export default function VerifyButton() {
     const { verifyMessage, setVerifyMessage } = useVerification();
@@ -12,7 +12,7 @@ export default function VerifyButton() {
     }) => {
         setVerifyMessage(message);
         console.log(`message: ${message}`);
-        console.log(`State verifyMessage: ${verifyMessage}`)
+        console.log(`State verifyMessage: ${verifyMessage}`);
     };
 
     return (
@@ -23,7 +23,11 @@ export default function VerifyButton() {
             handleVerify={handleVerify}
             verification_level={VerificationLevel.Orb} //VerificationLevel.Device?
         >
-            {({ open }) => <button className="bg-green-500 text-white px-3 py-1 rounded" onClick={open}>Verify with World ID</button>}
+            {({ open }) => (
+                <button className='bg-green-500 text-white px-3 py-1 rounded' onClick={open}>
+                    Verify with World ID
+                </button>
+            )}
         </IDKitWidget>
     );
 }
