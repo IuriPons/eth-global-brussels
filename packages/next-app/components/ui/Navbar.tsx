@@ -15,28 +15,26 @@ export default function Navbar() {
         <>
             <AppBar position='static'>
                 <Toolbar sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div className="flex items-center space-x-4">
-                        <Link href="/" passHref>
-                            <Image src="/applogo.gif" alt="App Logo" width={200} height={100} />
+                    <div className='flex items-center space-x-4'>
+                        <Link href='/' passHref>
+                            <Image src='/applogo.gif' alt='App Logo' width={200} height={100} />
                         </Link>
-                        <Link href="/create" passHref>
+                        <Link href='/create' passHref>
                             <button>CREATE</button>
                         </Link>
-                        <Link href="/pools" passHref>
+                        <Link href='/pools' passHref>
                             <button>POOLS</button>
                         </Link>
-                        <Link href="/swipe" passHref>
+                        <Link href='/swipe' passHref>
                             <button>SWIPE</button>
                         </Link>
                     </div>
-                    <div className="flex items-center space-x-4">
+                    <div className='flex items-center space-x-4'>
                         <ConnectButton />
                         {connectedAccount.status === 'connected' && (
                             <>
                                 {verifyMessage && verifyMessage.proof !== '' ? (
-                                    <button className="bg-green-500 text-white px-3 py-1 rounded">
-                                        Verified
-                                    </button>
+                                    <button className='bg-green-500 text-white px-3 py-1 rounded'>Verified</button>
                                 ) : (
                                     <VerifyButton />
                                 )}
