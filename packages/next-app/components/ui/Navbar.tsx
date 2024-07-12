@@ -4,6 +4,8 @@ import ConnectButton from '@/app/components/connectbutton';
 import VerifyButton from '@/app/components/verifybutton';
 import { AppBar, Toolbar, Typography } from '@mui/material';
 import { useVerification, useConnectedAccount } from '@/context/AppContext';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Navbar() {
     const { verifyMessage } = useVerification();
@@ -13,9 +15,20 @@ export default function Navbar() {
         <>
             <AppBar position='static'>
                 <Toolbar sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography variant='h6' component='a' href='/'>
-                        My App
-                    </Typography>
+                    <div className="flex items-center space-x-4">
+                        <Link href="/" passHref>
+                            <Image src="/applogo.gif" alt="App Logo" width={200} height={100} />
+                        </Link>
+                        <Link href="/create" passHref>
+                            <button>CREATE</button>
+                        </Link>
+                        <Link href="/pools" passHref>
+                            <button>POOLS</button>
+                        </Link>
+                        <Link href="/swipe" passHref>
+                            <button>SWIPE</button>
+                        </Link>
+                    </div>
                     <div className="flex items-center space-x-4">
                         <ConnectButton />
                         {connectedAccount.status === 'connected' && (
