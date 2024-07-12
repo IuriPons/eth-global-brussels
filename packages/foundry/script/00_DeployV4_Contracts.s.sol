@@ -15,21 +15,32 @@ import {Deployers} from "@uniswap/v4-core/test/utils/Deployers.sol";
 // import {HookMiner} from "../script/utils/HookMiner.sol";
 
 // import {Hook} from "../src/Hook.sol";
+import {PoolFactory} from "../src/PoolFactory.sol";
 
 
 contract CreatePoolScriptWithHook is Script, Deployers {
-    // using CurrencyLibrary for Currency;
-    // using PoolIdLibrary for PoolKey;
+    using CurrencyLibrary for Currency;
+    using PoolIdLibrary for PoolKey;
 
-    // Hook hook;
 
     function run() external {
-        console.log("hey");
+        vm.startBroadcast();
+
+        console.log("Start deploying v4 contracts...");
         // Deploy v4-core
-        // deployFreshManagerAndRouters();
+        deployFreshManagerAndRouters();
 
-        // (currency0, currency1) = deployMintAndApprove2Currencies();
+        (currency0, currency1) = deployMintAndApprove2Currencies();
 
+        console.log("Deploy 2 tokens...");
+
+        console.log("Deploy Pool Factory");
+
+        PoolFactory poolFactory = new PoolFactory(manager);
+
+        console.log("Address:", address(poolFactory));
+        
+        vm.stopBroadcast();
     }
 
 }

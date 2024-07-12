@@ -11,6 +11,7 @@ contract PoolFactory {
     using PoolIdLibrary for PoolKey;
 
     IPoolManager immutable public manager;
+    uint256 public counter;
     constructor(IPoolManager _manager) {
         manager = _manager;
     }
@@ -26,6 +27,7 @@ contract PoolFactory {
         _key = PoolKey(_currency0, _currency1, fee, 60, hooks);
         id = _key.toId();
         manager.initialize(_key, sqrtPriceX96, initData);
+        counter = counter +1;
     }
 
 }
