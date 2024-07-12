@@ -1,6 +1,6 @@
 'use client'; // for Next.js app router
+import { IDKitWidget, VerificationLevel, ISuccessResult } from '@worldcoin/idkit';
 import { useVerification } from '@/context/AppContext';
-import { IDKitWidget, VerificationLevel } from '@worldcoin/idkit';
 
 export default function VerifyButton() {
     const { verifyMessage, setVerifyMessage } = useVerification();

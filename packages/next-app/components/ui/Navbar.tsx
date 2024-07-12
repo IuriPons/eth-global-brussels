@@ -1,7 +1,7 @@
 'use client';
 
-import ConnectButton from '@/app/components/connectbutton';
-import VerifyButton from '@/app/components/verifybutton';
+import ConnectButton from '@/components/ui/ConnectButton';
+import VerifyButton from '@/components/ui/VerifyButton';
 import { AppBar, Toolbar, Typography } from '@mui/material';
 import { useVerification, useConnectedAccount } from '@/context/AppContext';
 import Image from 'next/image';
