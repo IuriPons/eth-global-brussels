@@ -14,7 +14,7 @@ const useVerifyUsers = () => {
         await writeContractAsync({
             address: VERIFY_USERS_ADDRESS,
             abi: VerifyUsersABI,
-            functionName: 'initPool',
+            functionName: 'verifyAndExecute',
             args: [
                 account,
                 BigInt(merkleRoot),

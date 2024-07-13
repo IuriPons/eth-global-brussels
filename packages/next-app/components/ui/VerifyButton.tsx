@@ -71,7 +71,7 @@ export default function VerifyButton() {
 
     return (
         <IDKitWidget
-            app_id={`app_staging_${process.env.NEXT_PUBLIC_WC_ACTION_APP_ID}`}
+            app_id={process.env.NEXT_PUBLIC_WC_ACTION_APP_ID as `app_${string}`}
             action={process.env.NEXT_PUBLIC_WC_ACTION_NAME || ''}
             signal={account.address}
             onSuccess={handleSuccess}
