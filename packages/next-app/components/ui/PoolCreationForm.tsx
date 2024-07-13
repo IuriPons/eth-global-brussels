@@ -1,5 +1,6 @@
 'use client';
 
+import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 
 // MUI
@@ -17,6 +18,9 @@ import { COINS } from '@/constants';
 const PoolCreationForm = () => {
     // Pool Factory Hook
     const { createPool } = usePoolFactory();
+
+    // Snackbar Hook
+    const { enqueueSnackbar } = useSnackbar();
 
     // States
     const [poolCreationInfo, setPoolCreationInfo] = useState<PoolCreationInfo>({
@@ -72,6 +76,20 @@ const PoolCreationForm = () => {
             '0x0000000000000000000000000000000000000001',
             300
         );
+        return;
+        try {
+            await createPool(
+                '0x0000000000000000000000000000000000000000',
+                '0x0000000000000000000000000000000000000001',
+                300
+            );
+
+            enqueueSnackbar('Pool Created Successfully', { variant: 'success' });
+        } catch (error) {
+            console.log(error);
+
+            enqueueSnackbar('Failed to Create Pool', { variant: 'error' });
+        }
     };
 
     return (

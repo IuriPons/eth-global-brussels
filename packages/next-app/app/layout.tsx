@@ -3,11 +3,12 @@ import { ThemeProvider } from '@/components/ui/ThemeProvider';
 import { config } from '@/config';
 import Web3ModalProvider from '@/context';
 import { AppProvider } from '@/context/AppContext';
+import SnackbarProvider from '@/context/SnackbarContext';
 import type { Metadata } from 'next';
+import { Kanit } from 'next/font/google';
 import { headers } from 'next/headers';
 import { cookieToInitialState } from 'wagmi';
 import './globals.css';
-import { Kanit } from 'next/font/google';
 
 const kanit = Kanit({
     weight: '300',
@@ -30,12 +31,14 @@ export default function RootLayout({
         <html lang='en'>
             <body className={kanit.className}>
                 <ThemeProvider>
-                    <Web3ModalProvider initialState={initialState}>
-                        <AppProvider>
-                            <Navbar />
-                            {children}
-                        </AppProvider>
-                    </Web3ModalProvider>
+                    <SnackbarProvider>
+                        <Web3ModalProvider initialState={initialState}>
+                            <AppProvider>
+                                <Navbar />
+                                {children}
+                            </AppProvider>
+                        </Web3ModalProvider>
+                    </SnackbarProvider>
                 </ThemeProvider>
             </body>
         </html>
