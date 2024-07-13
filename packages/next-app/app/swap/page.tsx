@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Box, Modal, Button, Typography } from '@mui/material';
 import Image from 'next/image';
 
-const PoolCreationPage = () => {
+const SwapPage = () => {
     const [amountSell, setAmountSell] = useState('0');
     const [amountBuy, setAmountBuy] = useState('0');
     const [isModalOpen1, setIsModalOpen1] = useState(false);
@@ -41,12 +41,12 @@ const PoolCreationPage = () => {
     };
 
     const handleTokenSelect1 = tokenName => {
-        setSelectedTokenSell(tokenName.toString().toLowerCase()); // For Sell input
+        setSelectedTokenSell(tokenName); // For Sell input
         setIsModalOpen1(false); // Close the modal after selecting a token
     };
 
     const handleTokenSelect2 = tokenName => {
-        setSelectedTokenBuy(tokenName.toString().toLowerCase()); // For Buy input
+        setSelectedTokenBuy(tokenName); // For Buy input
         setIsModalOpen2(false); // Close the modal after selecting a token
     };
 
@@ -234,4 +234,4 @@ const PoolCreationPage = () => {
     );
 };
 
-export default PoolCreationPage;
+export default SwapPage;
