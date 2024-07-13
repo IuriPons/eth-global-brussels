@@ -13,7 +13,7 @@ import { Hook, PoolCreationInfo } from '@/types';
 // Constants
 import { COINS, HOOKS } from '@/constants';
 
-const SwapPage = () => {
+const CreatePage = () => {
     // Pool Factory Hook
     const { createPool } = usePoolFactory();
 
@@ -316,4 +316,4 @@ const SwapPage = () => {
     );
 };
 
-export default SwapPage;
+export default CreatePage;
