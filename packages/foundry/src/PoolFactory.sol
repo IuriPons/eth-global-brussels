@@ -26,7 +26,10 @@ contract PoolFactory {
 
     IPoolManager immutable public manager;
     ISwapRouter immutable public swapRouter;
-    uint256 public counter;
+    uint256 public countPools;
+
+    mapping(bytes32 poolId => PoolKey pool) public poolInfos;
+
     constructor(IPoolManager _manager, address _swapRouter) {
         manager = _manager;
         swapRouter = ISwapRouter(_swapRouter);
@@ -40,33 +43,35 @@ contract PoolFactory {
         uint160 sqrtPriceX96,
         bytes memory initData
     ) external returns (PoolKey memory _key, PoolId id) {
+        (Currency token0, Currency token1) = _currency0 < _currency1 ? (_currency0, _currency1) : (_currency1, _currency0);
         _key = PoolKey(_currency0, _currency1, fee, 60, hooks);
-        id = _key.toId();
-        manager.initialize(_key, sqrtPriceX96, initData);
-        counter = counter +1;
+        manager.initialize(_key, sqrtPriceX96, initData); 
+        countPools = countPools + 1;
+        bytes32 poolId = getPoolId(currency0, currency1);
+        poolInfos[poolId] =  _key;
+    }
+
+    function getPoolId(address currency0, address currency1) internal returns(bytes32) {
+        (address token0, address token1) = _currency0 < _currency1 ? (_currency0, _currency1) : (_currency1, _currency0);
+        return keccak256(abi.encodePacked(currency0, currency1));
     }
 
     function swap(
         address currency0,
         address currency1,
-        uint24 swapFee,
-        int24 tickSpacing,
-        bool zeroForOne,
-        int256 amount,
-        bytes memory hookData
+        int256 amount
     ) external payable returns (BalanceDelta delta) {
 
-        PoolKey memory pool = PoolKey({
-            currency0: Currency.wrap(currency0),
-            currency1: Currency.wrap(currency1),
-            fee: swapFee,
-            tickSpacing: tickSpacing,
-            hooks: IHooks(address(0))
-        });
+        bool zeroForOne;
+        bytes32 poolId = getPoolId(currency0, currency1);
+
+        PoolKey memory pool = poolInfos[poolId];
+
+        zeroForOne = currency0 == pool.currency0;
 
         IPoolManager.SwapParams memory params = IPoolManager.SwapParams({
             zeroForOne: zeroForOne,
-            amountSpecified: amount,
+            amountSpecified: zeroForOne ? amount : -amount,
             sqrtPriceLimitX96: TickMath.MAX_SQRT_PRICE - 1 // unlimited impact
         });
 
