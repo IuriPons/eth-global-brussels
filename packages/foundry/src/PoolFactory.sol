@@ -53,7 +53,6 @@ contract PoolFactory {
         int24 tickSpacing,
         bool zeroForOne,
         int256 amount,
-        PoolSwapTest.TestSettings memory testSettings,
         bytes memory hookData
     ) external payable returns (BalanceDelta delta) {
 
