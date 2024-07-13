@@ -1,58 +1,72 @@
 'use client';
 
-import { useState } from 'react';
-import { Box, Modal, Button, Typography } from '@mui/material';
-import Image from 'next/image';
-import { useConnectedAccount, useVerification } from '@/context/AppContext';
-import ConnectButton from '@/components/ui/ConnectButton';
 import VerifyButton from '@/components/ui/VerifyButton';
+import { Box, Button, Modal } from '@mui/material';
+import Image from 'next/image';
+import { useState } from 'react';
+
+// Types
+import { SwapInfo } from '@/types';
+
+// Constants
+import { COINS } from '@/constants';
 
 const SwapPage = () => {
-    const { verifyMessage } = useVerification();
-    const { connectedAccount } = useConnectedAccount();
-    const [amountSell, setAmountSell] = useState('0');
-    const [amountBuy, setAmountBuy] = useState('0');
-    const [isModalOpen1, setIsModalOpen1] = useState(false);
-    const [isModalOpen2, setIsModalOpen2] = useState(false);
-    const [selectedTokenSell, setSelectedTokenSell] = useState(null);
-    const [selectedTokenBuy, setSelectedTokenBuy] = useState(null);
+    const [swapInfo, setSwapInfo] = useState<SwapInfo>({});
+    const [isChoosingSellingToken, setIsChoosingSellingToken] = useState(true);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleSellInput = e => {
-        const sellValue = e.target.value;
-        setAmountSell(sellValue);
-        setAmountBuy((sellValue * 2).toString());
+    const { sellAmount, sellCoin, buyAmount, buyCoin } = swapInfo;
+
+    const handleSellAmountChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const sellValue = Number(e.target.value);
+        setSwapInfo({ ...swapInfo, sellAmount: sellValue, buyAmount: sellValue });
     };
 
-    const handleBuyInput = e => {
-        const buyValue = e.target.value;
-        setAmountBuy(buyValue);
-        setAmountSell((buyValue / 2).toString());
+    const handleBuyAmountChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const buyValue = Number(e.target.value);
+        setSwapInfo({ ...swapInfo, buyAmount: buyValue, sellAmount: buyValue });
     };
 
-    const handleModalOpen1 = () => {
-        setIsModalOpen1(true);
+    const handleModalOpen = (isSellingToken: boolean) => {
+        setIsChoosingSellingToken(isSellingToken);
+        setIsModalOpen(true);
     };
 
-    const handleModalClose1 = () => {
-        setIsModalOpen1(false);
+    const handleModalClose = () => {
+        setIsModalOpen(false);
     };
 
-    const handleModalOpen2 = () => {
-        setIsModalOpen2(true);
+    const handleTokenSelect = (symbol: string) => {
+        setIsModalOpen(false);
+
+        const selectedCoin = COINS.find(coin => coin.symbol === symbol);
+
+        if (!selectedCoin) {
+            return;
+        }
+
+        if (isChoosingSellingToken) {
+            let newBuyCoin = buyCoin;
+
+            if (selectedCoin.symbol === buyCoin?.symbol) {
+                newBuyCoin = sellCoin;
+            }
+
+            setSwapInfo({ ...swapInfo, sellCoin: selectedCoin, buyCoin: newBuyCoin });
+        } else {
+            let newSellCoin = sellCoin;
+
+            if (selectedCoin.symbol === sellCoin?.symbol) {
+                newSellCoin = buyCoin;
+            }
+
+            setSwapInfo({ ...swapInfo, buyCoin: selectedCoin, sellCoin: newSellCoin });
+        }
     };
 
-    const handleModalClose2 = () => {
-        setIsModalOpen2(false);
-    };
-
-    const handleTokenSelect1 = tokenName => {
-        setSelectedTokenSell(tokenName); // For Sell input
-        setIsModalOpen1(false); // Close the modal after selecting a token
-    };
-
-    const handleTokenSelect2 = tokenName => {
-        setSelectedTokenBuy(tokenName); // For Buy input
-        setIsModalOpen2(false); // Close the modal after selecting a token
+    const handleSubmit = () => {
+        console.log('Swap Info:', swapInfo);
     };
 
     return (
@@ -67,74 +81,72 @@ const SwapPage = () => {
                 }}
             >
                 <div className='coin-box p-6 rounded-lg'>
-                    <div className='mb-4'>
-                        <div className='div-slanted p-2 my-2 relative ml-20'>
-                            <p className='div-slanted-text'>SELL</p>
-                            <input
-                                type='text'
-                                className='input-slanted bg-transparent w-full pr-20 h-16 text-lg'
-                                placeholder=''
-                                value={amountSell}
-                                onInput={handleSellInput}
-                            />
-                            <button
-                                className='select-button absolute right-2 top-2 bottom-2 px-2 my-2 flex items-center justify-center'
-                                onClick={handleModalOpen1}
-                            >
-                                {selectedTokenSell ? (
-                                    <div className='flex items-center space-x-2 selected-token-div'>
-                                        <p>{selectedTokenSell}</p>
-                                        <Image
-                                            src={`/${selectedTokenSell}.png`}
-                                            alt={selectedTokenSell}
-                                            width={50}
-                                            height={50}
-                                        />
-                                    </div>
-                                ) : (
-                                    <div className='flex items-center space-x-2 select-div'>
-                                        <p>SELECT</p>
-                                        <div className='circle-div'></div>
-                                    </div>
-                                )}
-                            </button>
-                        </div>
+                    <div className='div-slanted p-2 my-2 relative ml-20 mb-4'>
+                        <p className='div-slanted-text'>SELL</p>
+                        <input
+                            type='number'
+                            className='input-slanted bg-transparent w-full pr-20 h-16 text-lg'
+                            placeholder=''
+                            value={sellAmount}
+                            onInput={handleSellAmountChanged}
+                        />
+                        <button
+                            className='select-button absolute right-2 top-2 bottom-2 px-2 my-2 flex items-center justify-center'
+                            onClick={() => handleModalOpen(true)}
+                        >
+                            {sellCoin ? (
+                                <div className='flex items-center space-x-2 selected-token-div'>
+                                    <p>{sellCoin.symbol}</p>
+                                    <Image
+                                        src={`/${sellCoin.icon}`}
+                                        alt={sellCoin.name}
+                                        width={50}
+                                        height={50}
+                                        className='rounded-full'
+                                    />
+                                </div>
+                            ) : (
+                                <div className='flex items-center space-x-2 select-div'>
+                                    <p>SELECT</p>
+                                    <div className='circle-div'></div>
+                                </div>
+                            )}
+                        </button>
                     </div>
-                    <div className='mb-4'>
-                        <div className='div-slanted p-2 my-2 relative'>
-                            <p className='div-slanted-text'>BUY</p>
-                            <input
-                                type='text'
-                                className='input-slanted bg-transparent w-full pr-20 h-16 text-lg'
-                                placeholder=''
-                                value={amountBuy}
-                                onInput={handleBuyInput}
-                            />
-                            <button
-                                className='select-button absolute right-2 top-2 bottom-2 px-2 my-2 flex items-center justify-center'
-                                onClick={handleModalOpen2}
-                            >
-                                {selectedTokenBuy ? (
-                                    <div className='flex items-center space-x-2 selected-token-div'>
-                                        <p>{selectedTokenBuy}</p>
-                                        <Image
-                                            src={`/${selectedTokenBuy}.png`}
-                                            alt={selectedTokenBuy}
-                                            width={50}
-                                            height={50}
-                                        />
-                                    </div>
-                                ) : (
-                                    <div className='flex items-center space-x-2 select-div'>
-                                        <p>SELECT</p>
-                                        <div className='circle-div'></div>
-                                    </div>
-                                )}
-                            </button>
-                        </div>
+                    <div className='div-slanted p-2 my-2 relative mb-4'>
+                        <p className='div-slanted-text'>BUY</p>
+                        <input
+                            type='number'
+                            className='input-slanted bg-transparent w-full pr-20 h-16 text-lg'
+                            placeholder=''
+                            value={buyAmount}
+                            onInput={handleBuyAmountChanged}
+                        />
+                        <button
+                            className='select-button absolute right-2 top-2 bottom-2 px-2 my-2 flex items-center justify-center'
+                            onClick={() => handleModalOpen(false)}
+                        >
+                            {buyCoin ? (
+                                <div className='flex items-center space-x-2 selected-token-div'>
+                                    <p>{buyCoin.symbol}</p>
+                                    <Image
+                                        src={`/${buyCoin.icon}`}
+                                        alt={buyCoin.name}
+                                        width={50}
+                                        height={50}
+                                        className='rounded-full'
+                                    />
+                                </div>
+                            ) : (
+                                <div className='flex items-center space-x-2 select-div'>
+                                    <p>SELECT</p>
+                                    <div className='circle-div'></div>
+                                </div>
+                            )}
+                        </button>
                     </div>
                     <div className='flex'>
-                        <button className='swap-button' onClick={() => console.log('confirmed')}>
+                        <button className='swap-button' onClick={handleSubmit}>
                             <p className='swap-button-text'>SWAP</p>
                         </button>
                     </div>
@@ -152,8 +164,8 @@ const SwapPage = () => {
             </Box>
 
             <Modal
-                open={isModalOpen1}
-                onClose={handleModalClose1}
+                open={isModalOpen}
+                onClose={handleModalClose}
                 aria-labelledby='select-token-modal-title'
                 aria-describedby='select-token-modal-description'
             >
@@ -173,83 +185,30 @@ const SwapPage = () => {
                 >
                     <div id='select-token-modal-description' className='modal-container'>
                         <h1 className='text-2xl mb-6'>Select Token</h1>
-                        <div
-                            className='flex items-center space-x-4 mb-4 token-item'
-                            onClick={() => handleTokenSelect1('WBTC')}
-                        >
-                            <Image src='/wbtc.png' alt='WBTC' width={40} height={40} />
-                            <p>WBTC (BTC)</p>
-                        </div>
-                        <div
-                            className='flex items-center space-x-4 mb-4 token-item'
-                            onClick={() => handleTokenSelect1('Ethereum')}
-                        >
-                            <Image src='/ethereum.png' alt='Ethereum' width={40} height={40} />
-                            <p>Ethereum (ETH)</p>
-                        </div>
-                        <div
-                            className='flex items-center space-x-4 mb-4 token-item'
-                            onClick={() => handleTokenSelect1('USDC')}
-                        >
-                            <Image src='/usdc.png' alt='USDC' width={40} height={40} />
-                            <p>USDC</p>
-                        </div>
+
+                        {COINS.map(coin => (
+                            <div
+                                key={coin.symbol}
+                                className='flex items-center space-x-4 mb-4 token-item'
+                                onClick={() => handleTokenSelect(coin.symbol)}
+                            >
+                                <Image
+                                    src={`/${coin.icon}`}
+                                    alt={coin.symbol}
+                                    width={40}
+                                    height={40}
+                                    className='rounded-full'
+                                />
+                                <p>{coin.symbol}</p>
+                            </div>
+                        ))}
+
                         <Button
                             className='modal-close-button'
-                            onClick={handleModalClose1}
+                            onClick={handleModalClose}
                             variant='contained'
                             color='primary'
                         >
-                            Close
-                        </Button>
-                    </div>
-                </Box>
-            </Modal>
-
-            <Modal
-                open={isModalOpen2}
-                onClose={handleModalClose2}
-                aria-labelledby='select-token-modal-title'
-                aria-describedby='select-token-modal-description'
-            >
-                <Box
-                    className='modal-box bg-white p-6 rounded-lg shadow-lg'
-                    sx={{
-                        width: '500px',
-                        height: '400px',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                    }}
-                >
-                    <div id='select-token-modal-description' className='mt-4'>
-                        <h1 className='text-2xl mb-6'>Select Token</h1>
-                        <div
-                            className='flex items-center space-x-4 mb-4 token-item'
-                            onClick={() => handleTokenSelect2('WBTC')}
-                        >
-                            <Image src='/wbtc.png' alt='WBTC' width={40} height={40} />
-                            <p>WBTC (BTC)</p>
-                        </div>
-                        <div
-                            className='flex items-center space-x-4 mb-4 token-item'
-                            onClick={() => handleTokenSelect2('Ethereum')}
-                        >
-                            <Image src='/ethereum.png' alt='Ethereum' width={40} height={40} />
-                            <p>Ethereum (ETH)</p>
-                        </div>
-                        <div
-                            className='flex items-center space-x-4 mb-4 token-item'
-                            onClick={() => handleTokenSelect2('USDC')}
-                        >
-                            <Image src='/usdc.png' alt='USDC' width={40} height={40} />
-                            <p>USDC</p>
-                        </div>
-                        <Button onClick={handleModalClose2} variant='contained' color='primary'>
                             Close
                         </Button>
                     </div>
