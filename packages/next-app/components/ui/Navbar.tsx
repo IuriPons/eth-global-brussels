@@ -46,15 +46,6 @@ export default function Navbar() {
                         />
                         {/* <img alt="eth" className="eth-logo" src="/eth.png" /> */}
                         <ConnectButton />
-                        {connectedAccount.status === 'connected' && (
-                            <>
-                                {verifyMessage && verifyMessage.proof !== '' ? (
-                                    <button className='bg-green-500 text-white px-3 py-1 rounded'>Verified</button>
-                                ) : (
-                                    <VerifyButton />
-                                )}
-                            </>
-                        )}
                     </div>
                 </Toolbar>
             </AppBar>

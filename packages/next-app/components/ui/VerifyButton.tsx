@@ -1,6 +1,7 @@
 import { IDKitWidget, VerificationLevel } from '@worldcoin/idkit';
 import { useConnectedAccount, useVerification } from '@/context/AppContext';
 import { useState } from 'react';
+import Image from 'next/image';
 
 export default function VerifyButton() {
     const { verifyMessage } = useVerification();
@@ -64,8 +65,9 @@ export default function VerifyButton() {
             verification_level={VerificationLevel.Orb} // Adjust as per your requirements
         >
             {({ open }) => (
-                <button className='verify-button px-3 py-1' onClick={open}>
-                    Verify with World ID
+                <button className='verify-button' onClick={open}>
+                    <img src='/worldcoinlogo.gif' alt='Worldcoin Logo' className='wc-logo' />
+                    Verify with Worldcoin
                 </button>
             )}
         </IDKitWidget>
