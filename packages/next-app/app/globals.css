@@ -26,19 +26,52 @@ input:focus {
 
 .coin-box {
     width: 436px;
-    height: 643px;
     max-width: 436px;
-    /* border-radius: 25px;
-    border: 1px solid rgb(64, 61, 63); */
     margin-bottom: 15px;
-    box-shadow: rgb(255, 255, 255) 0px 2px 20px;
 }
 
 .verify-button {
-    color: white;
-    background-color: black;
-    border-radius: 20px;
-    border: 1px solid rgb(64, 61, 63);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    height: 50px;
+    width: 276px;
+    background-color: #ffffff;
+    border: 1px solid #ebecef;
+    border-radius: 12px;
+    color: #000000;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 16px;
+    padding-right: 32px;
+}
+
+.verify-button:hover {
+    background-color: #ebecef;
+}
+
+.last-text1 {
+    font-size: 11px;
+    color: #acd1fa;
+    padding: 12px 24px;
+}
+
+.last-text2 {
+    font-size: 20px;
+    color: #174078;
+    padding-left: 24px;
+    padding-bottom: 24px;
+    font-weight: bold;
+}
+
+.wc-logo {
+    width: 30px;
+    height: auto;
+    margin-right: 24px;
 }
 
 .select-button {
@@ -75,6 +108,13 @@ input:focus {
     align-items: center;
 }
 
+.center-text {
+    color: #82f27e;
+    font-size: 38px;
+    font-weight: bold;
+    line-height: 1;
+}
+
 .modal-container {
     text-align: center;
 }
@@ -97,7 +137,7 @@ input:focus {
     display: 'flex';
     justify-content: 'center';
     align-items: 'center';
-    height: '95vh';
+    height: '100vh';
 }
 
 .nav-button {

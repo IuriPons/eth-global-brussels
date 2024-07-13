@@ -5,6 +5,7 @@ import { Box, Modal, Button, Typography } from '@mui/material';
 import Image from 'next/image';
 import { useConnectedAccount, useVerification } from '@/context/AppContext';
 import ConnectButton from '@/components/ui/ConnectButton';
+import VerifyButton from '@/components/ui/VerifyButton';
 
 const SwapPage = () => {
     const { verifyMessage } = useVerification();
@@ -55,80 +56,100 @@ const SwapPage = () => {
     };
 
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '95vh' }}>
-            <div className='coin-box mx-auto p-6 rounded-lg'>
-                <div className='mb-4'>
-                    <div className='div-slanted p-2 my-2 relative ml-20'>
-                        <p className='div-slanted-text'>SELL</p>
-                        <input
-                            type='text'
-                            className='input-slanted bg-transparent w-full pr-20 h-16 text-lg'
-                            placeholder=''
-                            value={amountSell}
-                            onInput={handleSellInput}
-                        />
-                        <button
-                            className='select-button absolute right-2 top-2 bottom-2 px-2 my-2 flex items-center justify-center'
-                            onClick={handleModalOpen1}
-                        >
-                            {selectedTokenSell ? (
-                                <div className='flex items-center space-x-2 selected-token-div'>
-                                    <p>{selectedTokenSell}</p>
-                                    <Image
-                                        src={`/${selectedTokenSell}.png`}
-                                        alt={selectedTokenSell}
-                                        width={50}
-                                        height={50}
-                                    />
-                                </div>
-                            ) : (
-                                <div className='flex items-center space-x-2 select-div'>
-                                    <p>SELECT</p>
-                                    <div className='circle-div'></div>
-                                </div>
-                            )}
+        <>
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'space-evenly',
+                    alignItems: 'center',
+                    height: '100vh',
+                    padding: '0 12% 14% 12%',
+                }}
+            >
+                <div className='coin-box p-6 rounded-lg'>
+                    <div className='mb-4'>
+                        <div className='div-slanted p-2 my-2 relative ml-20'>
+                            <p className='div-slanted-text'>SELL</p>
+                            <input
+                                type='text'
+                                className='input-slanted bg-transparent w-full pr-20 h-16 text-lg'
+                                placeholder=''
+                                value={amountSell}
+                                onInput={handleSellInput}
+                            />
+                            <button
+                                className='select-button absolute right-2 top-2 bottom-2 px-2 my-2 flex items-center justify-center'
+                                onClick={handleModalOpen1}
+                            >
+                                {selectedTokenSell ? (
+                                    <div className='flex items-center space-x-2 selected-token-div'>
+                                        <p>{selectedTokenSell}</p>
+                                        <Image
+                                            src={`/${selectedTokenSell}.png`}
+                                            alt={selectedTokenSell}
+                                            width={50}
+                                            height={50}
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className='flex items-center space-x-2 select-div'>
+                                        <p>SELECT</p>
+                                        <div className='circle-div'></div>
+                                    </div>
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                    <div className='mb-4'>
+                        <div className='div-slanted p-2 my-2 relative'>
+                            <p className='div-slanted-text'>BUY</p>
+                            <input
+                                type='text'
+                                className='input-slanted bg-transparent w-full pr-20 h-16 text-lg'
+                                placeholder=''
+                                value={amountBuy}
+                                onInput={handleBuyInput}
+                            />
+                            <button
+                                className='select-button absolute right-2 top-2 bottom-2 px-2 my-2 flex items-center justify-center'
+                                onClick={handleModalOpen2}
+                            >
+                                {selectedTokenBuy ? (
+                                    <div className='flex items-center space-x-2 selected-token-div'>
+                                        <p>{selectedTokenBuy}</p>
+                                        <Image
+                                            src={`/${selectedTokenBuy}.png`}
+                                            alt={selectedTokenBuy}
+                                            width={50}
+                                            height={50}
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className='flex items-center space-x-2 select-div'>
+                                        <p>SELECT</p>
+                                        <div className='circle-div'></div>
+                                    </div>
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                    <div className='flex'>
+                        <button className='swap-button' onClick={() => console.log('confirmed')}>
+                            <p className='swap-button-text'>SWAP</p>
                         </button>
                     </div>
                 </div>
-                <div className='mb-4'>
-                    <div className='div-slanted p-2 my-2 relative'>
-                        <p className='div-slanted-text'>BUY</p>
-                        <input
-                            type='text'
-                            className='input-slanted bg-transparent w-full pr-20 h-16 text-lg'
-                            placeholder=''
-                            value={amountBuy}
-                            onInput={handleBuyInput}
-                        />
-                        <button
-                            className='select-button absolute right-2 top-2 bottom-2 px-2 my-2 flex items-center justify-center'
-                            onClick={handleModalOpen2}
-                        >
-                            {selectedTokenBuy ? (
-                                <div className='flex items-center space-x-2 selected-token-div'>
-                                    <p>{selectedTokenBuy}</p>
-                                    <Image
-                                        src={`/${selectedTokenBuy}.png`}
-                                        alt={selectedTokenBuy}
-                                        width={50}
-                                        height={50}
-                                    />
-                                </div>
-                            ) : (
-                                <div className='flex items-center space-x-2 select-div'>
-                                    <p>SELECT</p>
-                                    <div className='circle-div'></div>
-                                </div>
-                            )}
-                        </button>
-                    </div>
+                <div className='center-div'>
+                    <p className='center-text ml-20'>REACH</p>
+                    <p className='center-text ml-10'>MORE</p>
+                    <p className='center-text'>DEPTH</p>
                 </div>
-                <div className='flex'>
-                    <button className='swap-button' onClick={() => console.log('confirmed')}>
-                        <p className='swap-button-text'>SWAP</p>
-                    </button>
+                <div className='center-div'>
+                    <p className='last-text1'>TRANSACTION VOLUME</p>
+                    <p className='last-text2'>Unlimited token/transaction</p>
+                    <VerifyButton />
                 </div>
-            </div>
+            </Box>
 
             <Modal
                 open={isModalOpen1}
@@ -234,7 +255,7 @@ const SwapPage = () => {
                     </div>
                 </Box>
             </Modal>
-        </Box>
+        </>
     );
 };
 
