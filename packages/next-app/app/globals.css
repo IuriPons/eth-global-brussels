@@ -20,6 +20,10 @@ input:focus {
     outline: none;
 }
 
+button:hover {
+    cursor: pointer;
+}
+
 .row {
     margin-bottom: 10px;
 }
@@ -199,12 +203,11 @@ input:focus {
 
 .swap-button-grey {
     transform: skew(-14deg);
-        background-color: lightgrey;
-        width: 145px;
-        height: 48px;
-        margin: auto;
+    background-color: lightgrey;
+    width: 145px;
+    height: 48px;
+    margin: auto;
 }
-
 
 .swap-button-text,
 .create-button-text {
@@ -299,11 +302,71 @@ input:focus {
     align-items: center;
 }
 
+.pair-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 13px;
+    background: transparent;
+}
+
+.pair-table th,
+.pair-table td {
+    position: relative;
+    width: 939px;
+    height: 31px;
+    background: #f4f9fd;
+    color: #174078;
+    font-size: 16px;
+    text-align: left;
+}
+
+.pair-table th {
+    background: transparent;
+    font-weight: normal;
+}
+
+.pair-table .pair {
+    font-weight: bold;
+}
+
+.pair-table button {
+    font-weight: bold;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: skew(-14deg);
+    background-color: #82f27e;
+    color: #174078;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    width: 200px;
+}
+
+.pair-table button:hover {
+    opacity: 0.8;
+}
+
+@media screen and (max-width: 1450px) {
+    .create-selected-token-div {
+        left: -1200%;
+    }
+}
+
 @media screen and (max-width: 480px) {
     .coin-box {
         width: 80%;
         max-width: 100%;
         height: 550px;
         margin: 0 auto;
+    }
+
+    .create-selected-token-div {
+        position: absolute;
+        left: -233px;
+        font-size: 6px;
+        font-weight: bold;
+        color: #174078;
+        font-size: 24px;
     }
 }
