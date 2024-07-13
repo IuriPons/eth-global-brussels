@@ -6,14 +6,22 @@ import {BaseHook} from "v4-periphery/BaseHook.sol";
 import {CurrencyLibrary, Currency} from "v4-core/types/Currency.sol";
 import {PoolKey} from "v4-core/types/PoolKey.sol";
 import {BalanceDeltaLibrary, BalanceDelta} from "v4-core/types/BalanceDelta.sol";
+import {BeforeSwapDelta, toBeforeSwapDelta} from "v4-core/types/BeforeSwapDelta.sol";
 
 import {IPoolManager} from "v4-core/interfaces/IPoolManager.sol";
 
 import {Hooks} from "v4-core/libraries/Hooks.sol";
 
+import {VerifyUsers} from "./VerifyUsers.sol";
+
 contract Hook is BaseHook {
     using CurrencyLibrary for Currency;
     using BalanceDeltaLibrary for BalanceDelta;
+
+    error KYCNotVerifiedUnsupportedAmount();
+
+    VerifyUsers immutable public verifyUsersContract = VerifyUsers(address(0)); // change address 
+    int256 constant public MAX_AMOUNT_WITHOUT_KYC = 1000; // change address 
 
     constructor(
         IPoolManager _manager
@@ -44,27 +52,41 @@ contract Hook is BaseHook {
             });
     }
 
-    function afterSwap(
+     function beforeSwap(
         address,
         PoolKey calldata key,
         IPoolManager.SwapParams calldata swapParams,
-        BalanceDelta delta,
         bytes calldata hookData
-    ) external override onlyByManager returns (bytes4, int128) {
+    )
+        external
+        override
+        onlyByManager
+        returns (bytes4, BeforeSwapDelta, uint24)
+    {
+        bool isUserVerified = _verifyUser(hookData);
 
-        return (this.afterSwap.selector, 0);
+        int256 amountToSwap = swapParams.amountSpecified;
+        if (!isUserVerified) {
+            if ( amountToSwap > MAX_AMOUNT_WITHOUT_KYC) {
+                revert KYCNotVerifiedUnsupportedAmount();
+            } 
+        }
+        return (this.beforeSwap.selector, toBeforeSwapDelta(0, 0), 0);
     }
 
-    function afterAddLiquidity(
-        address,
-        PoolKey calldata key,
-        IPoolManager.ModifyLiquidityParams calldata,
-        BalanceDelta delta,
-        bytes calldata hookData
-    ) external override onlyByManager returns (bytes4, BalanceDelta) {
 
-        return (this.afterAddLiquidity.selector, delta);
+    function _verifyUser(bytes calldata hookData) internal returns(bool verified) {
+        if (hookData.length == 0) return verified;
+
+        (address swaper) = abi.decode(
+            hookData,
+            (address)
+        );
+
+        return verifyUsersContract.verifiedUsers(swaper);
     }
+
+   
 
     
 }
