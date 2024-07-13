@@ -9,6 +9,7 @@ export type Coin = {
     name: string;
     symbol: string;
     icon: string;
+    address: string;
 };
 
 export type PoolCreationInfo = {
