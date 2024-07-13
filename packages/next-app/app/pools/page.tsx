@@ -30,14 +30,11 @@ function createData(id, name, transactions, tvl, apr) {
         name,
         transactions,
         tvl,
-        apr
+        apr,
     };
 }
 
-const rows = [
-    createData(1, 'WBTC/ETH', 330900, 283.9, 0.013),
-    createData(2, 'USDC/ETH', 7400000, 144.7,0.047),
-];
+const rows = [createData(1, 'WBTC/ETH', 330900, 283.9, 0.013), createData(2, 'USDC/ETH', 7400000, 144.7, 0.047)];
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -68,7 +65,7 @@ function stableSort(array, comparator) {
         }
         return a[1] - b[1];
     });
-    return stabilizedThis.map((el) => el[0]);
+    return stabilizedThis.map(el => el[0]);
 }
 
 const headCells = [
@@ -99,18 +96,17 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-    const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-        props;
-    const createSortHandler = (property) => (event) => {
+    const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+    const createSortHandler = property => event => {
         onRequestSort(event, property);
     };
 
     return (
         <TableHead>
             <TableRow>
-                <TableCell padding="checkbox">
+                <TableCell padding='checkbox'>
                     <Checkbox
-                        color="primary"
+                        color='primary'
                         indeterminate={numSelected > 0 && numSelected < rowCount}
                         checked={rowCount > 0 && numSelected === rowCount}
                         onChange={onSelectAllClick}
@@ -119,7 +115,7 @@ function EnhancedTableHead(props) {
                         }}
                     />
                 </TableCell>
-                {headCells.map((headCell) => (
+                {headCells.map(headCell => (
                     <TableCell
                         key={headCell.id}
                         align={headCell.numeric ? 'right' : 'left'}
@@ -133,7 +129,7 @@ function EnhancedTableHead(props) {
                         >
                             {headCell.label}
                             {orderBy === headCell.id ? (
-                                <Box component="span" sx={visuallyHidden}>
+                                <Box component='span' sx={visuallyHidden}>
                                     {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                                 </Box>
                             ) : null}
@@ -163,39 +159,28 @@ function EnhancedTableToolbar(props) {
                 pl: { sm: 2 },
                 pr: { xs: 1, sm: 1 },
                 ...(numSelected > 0 && {
-                    bgcolor: (theme) =>
-                        alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
+                    bgcolor: theme => alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
                 }),
             }}
         >
             {numSelected > 0 ? (
-                <Typography
-                    sx={{ flex: '1 1 100%' }}
-                    color="inherit"
-                    variant="subtitle1"
-                    component="div"
-                >
+                <Typography sx={{ flex: '1 1 100%' }} color='inherit' variant='subtitle1' component='div'>
                     {numSelected} selected
                 </Typography>
             ) : (
-                <Typography
-                    sx={{ flex: '1 1 100%' }}
-                    variant="h6"
-                    id="tableTitle"
-                    component="div"
-                >
+                <Typography sx={{ flex: '1 1 100%' }} variant='h6' id='tableTitle' component='div'>
                     Pools
                 </Typography>
             )}
 
             {numSelected > 0 ? (
-                <Tooltip title="Delete">
+                <Tooltip title='Delete'>
                     <IconButton>
                         <DeleteIcon />
                     </IconButton>
                 </Tooltip>
             ) : (
-                <Tooltip title="Filter list">
+                <Tooltip title='Filter list'>
                     <IconButton>
                         <FilterListIcon />
                     </IconButton>
@@ -223,9 +208,9 @@ export default function PoolsPage() {
         setOrderBy(property);
     };
 
-    const handleSelectAllClick = (event) => {
+    const handleSelectAllClick = event => {
         if (event.target.checked) {
-            const newSelected = rows.map((n) => n.id);
+            const newSelected = rows.map(n => n.id);
             setSelected(newSelected);
             return;
         }
@@ -243,10 +228,7 @@ export default function PoolsPage() {
         } else if (selectedIndex === selected.length - 1) {
             newSelected = newSelected.concat(selected.slice(0, -1));
         } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1),
-            );
+            newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
         }
         setSelected(newSelected);
     };
@@ -255,41 +237,33 @@ export default function PoolsPage() {
         setPage(newPage);
     };
 
-    const handleChangeRowsPerPage = (event) => {
+    const handleChangeRowsPerPage = event => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
 
-    const handleChangeDense = (event) => {
+    const handleChangeDense = event => {
         setDense(event.target.checked);
     };
 
-    const isSelected = (id) => selected.indexOf(id) !== -1;
+    const isSelected = id => selected.indexOf(id) !== -1;
 
     // Avoid a layout jump when reaching the last page with empty rows.
-    const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
     const visibleRows = React.useMemo(
         () =>
-            stableSort(rows, getComparator(order, orderBy)).slice(
-                page * rowsPerPage,
-                page * rowsPerPage + rowsPerPage,
-            ),
-        [order, orderBy, page, rowsPerPage],
+            stableSort(rows, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
+        [order, orderBy, page, rowsPerPage]
     );
 
     return (
-        <div className="pools-page">
+        <div className='pools-page'>
             <Box sx={{ width: '100%' }}>
                 <Paper sx={{ width: '100%', mb: 2 }}>
                     <EnhancedTableToolbar numSelected={selected.length} />
                     <TableContainer>
-                        <Table
-                            sx={{ minWidth: 750 }}
-                            aria-labelledby="tableTitle"
-                            size={dense ? 'small' : 'medium'}
-                        >
+                        <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={dense ? 'small' : 'medium'}>
                             <EnhancedTableHead
                                 numSelected={selected.length}
                                 order={order}
@@ -306,35 +280,30 @@ export default function PoolsPage() {
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={(event) => handleClick(event, row.id)}
-                                            role="checkbox"
+                                            onClick={event => handleClick(event, row.id)}
+                                            role='checkbox'
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}
                                             key={row.id}
                                             selected={isItemSelected}
                                             sx={{ cursor: 'pointer' }}
                                         >
-                                            <TableCell padding="checkbox">
+                                            <TableCell padding='checkbox'>
                                                 <Checkbox
-                                                    color="primary"
+                                                    color='primary'
                                                     checked={isItemSelected}
                                                     inputProps={{
                                                         'aria-labelledby': labelId,
                                                     }}
                                                 />
                                             </TableCell>
-                                            <TableCell
-                                                component="th"
-                                                id={labelId}
-                                                scope="row"
-                                                padding="none"
-                                            >
+                                            <TableCell component='th' id={labelId} scope='row' padding='none'>
                                                 {row.name}
                                             </TableCell>
-                                            <TableCell align="right">{row.transactions}</TableCell>
-                                            <TableCell align="right">{row.tvl}</TableCell>
-                                            <TableCell align="right">{row.apr}</TableCell>
-                                            </TableRow>
+                                            <TableCell align='right'>{row.transactions}</TableCell>
+                                            <TableCell align='right'>{row.tvl}</TableCell>
+                                            <TableCell align='right'>{row.apr}</TableCell>
+                                        </TableRow>
                                     );
                                 })}
                                 {emptyRows > 0 && (
@@ -351,7 +320,7 @@ export default function PoolsPage() {
                     </TableContainer>
                     <TablePagination
                         rowsPerPageOptions={[5, 10, 25]}
-                        component="div"
+                        component='div'
                         count={rows.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
@@ -361,7 +330,7 @@ export default function PoolsPage() {
                 </Paper>
                 <FormControlLabel
                     control={<Switch checked={dense} onChange={handleChangeDense} />}
-                    label="Dense padding"
+                    label='Dense padding'
                 />
             </Box>
         </div>

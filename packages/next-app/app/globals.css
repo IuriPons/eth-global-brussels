@@ -41,13 +41,13 @@
 }
 
 .pools-page {
-  position: absolute;
-  top: 25%;
-  left: 25%;
-  display: 'flex';
-  justify-content: 'center';
-  align-items: 'center';
-  height: '95vh';
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    display: 'flex';
+    justify-content: 'center';
+    align-items: 'center';
+    height: '95vh';
 }
 
 @media screen and (max-width: 480px) {
