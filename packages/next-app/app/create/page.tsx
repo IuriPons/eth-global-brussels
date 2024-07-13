@@ -8,10 +8,10 @@ import { useState } from 'react';
 import usePoolFactory from '@/hooks/usePoolFactory';
 
 // Types
-import { PoolCreationInfo } from '@/types';
+import { Hook, PoolCreationInfo } from '@/types';
 
 // Constants
-import { COINS } from '@/constants';
+import { COINS, HOOKS } from '@/constants';
 
 const SwapPage = () => {
     // Pool Factory Hook
@@ -19,14 +19,11 @@ const SwapPage = () => {
 
     // States
     const [poolCreationInfo, setPoolCreationInfo] = useState<PoolCreationInfo>({});
-    const [hookName, setHookName] = useState('');
-    const [hookAddress, setHookAddress] = useState('');
-    const [volumeLimit, setVolumeLimit] = useState('0');
     const [isTokenSelectorModalOpen, setIsTokenSelectorModalOpen] = useState(false);
     const [isChoosingToken0, setIsChoosingToken0] = useState(true);
-    const [isModalOpen3, setIsModalOpen3] = useState(false);
+    const [isHookSelectorModalOpen, setIsHookSelectorModalOpen] = useState(false);
 
-    const { token0, token1, fee, hook: poolHook } = poolCreationInfo;
+    const { token0, token1, fee, hook, volumeLimit } = poolCreationInfo;
 
     const handleTokenSelectorModalOpen = (isToken0: boolean) => {
         setIsChoosingToken0(isToken0);
@@ -38,11 +35,11 @@ const SwapPage = () => {
     };
 
     const handleModalOpen3 = () => {
-        setIsModalOpen3(true);
+        setIsHookSelectorModalOpen(true);
     };
 
     const handleModalClose3 = () => {
-        setIsModalOpen3(false);
+        setIsHookSelectorModalOpen(false);
     };
 
     const handleTokenSelect = (symbol: string) => {
@@ -73,10 +70,9 @@ const SwapPage = () => {
         }
     };
 
-    const handleHookSelect = (name: string, address: string) => {
-        setHookName(name);
-        setHookAddress(address);
-        setIsModalOpen3(false);
+    const handleHookSelect = (selectedHook: Hook) => {
+        setPoolCreationInfo({ ...poolCreationInfo, hook: selectedHook });
+        setIsHookSelectorModalOpen(false);
     };
 
     const handleCreatePool = async () => {
@@ -84,9 +80,7 @@ const SwapPage = () => {
             return;
         }
 
-        await createPool(token0.address, token1.address, fee);
-
-        console.log('createHook object:', poolCreationInfo);
+        await createPool(token0.address, token1.address, fee, hook?.address);
     };
 
     return (
@@ -175,7 +169,7 @@ const SwapPage = () => {
                             className='create-input-slanted bg-transparent w-full pr-20 h-16 text-lg'
                             placeholder=''
                             value={volumeLimit}
-                            onChange={e => setVolumeLimit(e.target.value)}
+                            onChange={e => setPoolCreationInfo({ ...poolCreationInfo, volumeLimit: +e.target.value })}
                         />
                     </div>
                 </div>
@@ -186,10 +180,18 @@ const SwapPage = () => {
                             className='create-select-button absolute right-2 top-2 bottom-2 px-2 my-2 flex items-center justify-center'
                             onClick={handleModalOpen3}
                         >
-                            {hookName ? (
+                            {hook ? (
                                 <div className='flex items-center space-x-2 create-selected-token-div'>
-                                    <div className='create-circle-div'>{hookName == 'Hook1' ? '1' : '2'}</div>
-                                    <p>{hookAddress}</p>
+                                    <div className='create-circle-div'>
+                                        <Image
+                                            src={hook.icon}
+                                            alt={hook.name}
+                                            width={50}
+                                            height={50}
+                                            className='rounded-full'
+                                        />
+                                    </div>
+                                    <p>{hook.name}</p>
                                 </div>
                             ) : (
                                 <div className='flex items-center space-x-2 create-select-div'>
@@ -199,6 +201,7 @@ const SwapPage = () => {
                             )}
                         </button>
                     </div>
+
                     <div className='create-button-div'>
                         <button className='create-button' onClick={handleCreatePool}>
                             <p className='create-button-text'>CREATE</p>
@@ -260,7 +263,7 @@ const SwapPage = () => {
             </Modal>
 
             <Modal
-                open={isModalOpen3}
+                open={isHookSelectorModalOpen}
                 onClose={handleModalClose3}
                 aria-labelledby='select-hook-modal-title'
                 aria-describedby='select-hook-modal-description'
@@ -281,18 +284,23 @@ const SwapPage = () => {
                 >
                     <div id='select-hook-modal-description' className='modal-container'>
                         <h1 className='text-2xl mb-6'>Select Hook</h1>
-                        <div
-                            className='flex items-center space-x-4 mb-4 hook-item'
-                            onClick={() => handleHookSelect('Hook1', '0x123')}
-                        >
-                            <p>Hook 1: Name: 0x123...</p>
-                        </div>
-                        <div
-                            className='flex items-center space-x-4 mb-4 hook-item'
-                            onClick={() => handleHookSelect('Hook2', '0x456')}
-                        >
-                            <p>Hook 2: Name: 0x123...</p>
-                        </div>
+                        {HOOKS.map(hook => (
+                            <div
+                                key={hook.name}
+                                className='flex items-center space-x-4 mb-4 hook-item'
+                                onClick={() => handleHookSelect(hook)}
+                            >
+                                <Image
+                                    src={hook.icon}
+                                    alt={hook.name}
+                                    width={40}
+                                    height={40}
+                                    className='rounded-full'
+                                />
+                                <p>{hook.name}</p>
+                            </div>
+                        ))}
+
                         <Button
                             className='modal-close-button'
                             onClick={handleModalClose3}

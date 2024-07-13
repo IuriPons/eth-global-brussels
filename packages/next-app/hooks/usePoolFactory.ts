@@ -15,7 +15,7 @@ const usePoolFactory = () => {
         coin1Address: string,
         coin2Address: string,
         fee: number,
-        hook: number | undefined = undefined
+        hook: string | undefined = undefined
     ) => {
         await writeContractAsync({
             address: POOL_FACTORY_ADDRESS,

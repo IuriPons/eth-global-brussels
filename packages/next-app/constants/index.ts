@@ -24,6 +24,7 @@ export const COINS: Coin[] = [
 export const HOOKS: Hook[] = [
     {
         name: 'KYC Hook',
+        icon: '/worldcoinlogo.gif',
         address: '0x0000000000000000000000000000000000000000',
     },
 ];

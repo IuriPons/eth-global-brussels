@@ -14,6 +14,7 @@ export type Coin = {
 
 export type Hook = {
     name: string;
+    icon: string;
     address: string;
 };
 
@@ -21,5 +22,6 @@ export type PoolCreationInfo = {
     token0?: Coin;
     token1?: Coin;
     fee?: number;
-    hook?: string;
+    hook?: Hook;
+    volumeLimit?: number;
 };
