@@ -12,9 +12,14 @@ export type Coin = {
     address: string;
 };
 
+export type Hook = {
+    name: string;
+    address: string;
+};
+
 export type PoolCreationInfo = {
-    coin1: Coin;
-    coin2: Coin;
-    fee: number;
-    hook: string;
+    token0?: Coin;
+    token1?: Coin;
+    fee?: number;
+    hook?: string;
 };

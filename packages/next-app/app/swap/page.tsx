@@ -113,7 +113,7 @@ const SwapPage = () => {
                                 <div className='flex items-center space-x-2 selected-token-div'>
                                     <p>{sellCoin.symbol}</p>
                                     <Image
-                                        src={`/${sellCoin.icon}`}
+                                        src={sellCoin.icon}
                                         alt={sellCoin.name}
                                         width={50}
                                         height={50}
@@ -145,7 +145,7 @@ const SwapPage = () => {
                                 <div className='flex items-center space-x-2 selected-token-div'>
                                     <p>{buyCoin.symbol}</p>
                                     <Image
-                                        src={`/${buyCoin.icon}`}
+                                        src={buyCoin.icon}
                                         alt={buyCoin.name}
                                         width={50}
                                         height={50}
@@ -208,7 +208,7 @@ const SwapPage = () => {
                                 onClick={() => handleTokenSelect(coin.symbol)}
                             >
                                 <Image
-                                    src={`/${coin.icon}`}
+                                    src={coin.icon}
                                     alt={coin.symbol}
                                     width={40}
                                     height={40}
