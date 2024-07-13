@@ -72,6 +72,7 @@ const usePoolFactory = () => {
                     amountSpecified: amount,
                     sqrtPriceLimitX96: 4295128739 + 1,
                 },
+                { takeClaims: false, settleUsingBurn: false },
                 '0x00',
             ],
         });
