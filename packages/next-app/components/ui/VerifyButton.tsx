@@ -18,7 +18,7 @@ export default function VerifyButton() {
     };
 
     // Example of how handleSuccess might look in VerifyButton component
-    const onVerify = (successResult) => {
+    const onVerify = successResult => {
         console.log('Verification succeeded:', successResult);
 
         const { proof, signal } = successResult;
@@ -48,8 +48,7 @@ export default function VerifyButton() {
             });
     };
 
-
-    const handleError = (error) => {
+    const handleError = error => {
         console.error('Verification failed:', error);
         // Handle verification failure
     };

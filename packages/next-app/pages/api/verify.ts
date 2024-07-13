@@ -1,7 +1,5 @@
 // pages/api/verify.ts
 
-
-
 // import { NextApiRequest, NextApiResponse } from 'next';
 // import { IVerifyResponse, verifyCloudProof } from '@worldcoin/idkit';
 
