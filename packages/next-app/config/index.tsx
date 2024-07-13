@@ -13,7 +13,7 @@ const metadata = {
 };
 
 export const chain: Chain = {
-    id: 11155420,
+    id: 31337,
     name: 'Optimism Sepolia Anvil Fork',
     nativeCurrency: {
         decimals: 18,
