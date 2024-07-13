@@ -20,6 +20,10 @@ input:focus {
     outline: none;
 }
 
+.row {
+    margin-bottom: 10px;
+}
+
 .logo {
     margin-right: 20px;
 }
@@ -123,7 +127,8 @@ input:focus {
     margin-top: 20px;
 }
 
-.token-item {
+.token-item,
+.hook-item {
     padding: 10px;
     border-radius: 20px;
     border: 1px solid rgb(64, 61, 63);
@@ -177,7 +182,14 @@ input:focus {
     font-size: 2.8rem;
 }
 
-.swap-button {
+.create-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.swap-button,
+.create-button {
     transform: skew(-14deg);
     background-color: #82f27e;
     width: 145px;
@@ -185,9 +197,106 @@ input:focus {
     margin: auto;
 }
 
-.swap-button-text {
+.swap-button-grey {
+    transform: skew(-14deg);
+        background-color: lightgrey;
+        width: 145px;
+        height: 48px;
+        margin: auto;
+}
+
+
+.swap-button-text,
+.create-button-text {
     color: #174078;
     transform: skew(14deg);
+}
+
+.create-button-div {
+    margin-left: 150px;
+}
+
+.create-label {
+    color: #174078;
+}
+
+.create-label:hover {
+    cursor: default;
+}
+
+.create-div-slanted {
+    transform: skew(-14deg);
+    background-color: #c3dff4;
+    width: 233.5px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+}
+
+.create-div-slanted-light {
+    transform: skew(-14deg);
+    background-color: #f4f9fd;
+    width: 233.5px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    border: 1px #288ed7 solid;
+}
+
+.create-slanted-text {
+    color: #288ed7;
+    transform: skew(14deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: 8px;
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: 100;
+}
+
+.create-input-slanted {
+    transform: skew(14deg);
+    color: #82f27e;
+    padding: 8px;
+    padding-left: 10px;
+    font-size: 30px;
+}
+
+.create-select-button {
+    color: #288ed7;
+    transform: skew(14deg);
+    margin-top: 8px;
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: 100;
+}
+
+.create-selected-token-div {
+    position: absolute;
+    left: -233px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #174078;
+    font-size: 24px;
+}
+
+.create-select-div {
+    position: absolute;
+    left: -233px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.create-circle-div {
+    width: 50px;
+    height: 50px;
+    border: 2px solid #288ed7;
+    border-radius: 50%;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 @media screen and (max-width: 480px) {

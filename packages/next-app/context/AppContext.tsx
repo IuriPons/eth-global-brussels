@@ -1,7 +1,7 @@
 // app/context/AppContext.tsx
 'use client';
 
-import React, { createContext, useState, useContext, ReactNode, Dispatch, SetStateAction } from 'react';
+import React, { createContext, useState, useContext, ReactNode, Dispatch, SetStateAction, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 
 // Interface for Verification Message
@@ -41,6 +41,16 @@ const useVerification = (): VerificationContextType => {
     return context;
 };
 
+// Interface for CreateHook
+interface CreateHook {
+    pairToken1: string | null;
+    pairToken2: string | null;
+    fee: number;
+    hookName: string;
+    hookAddress: string;
+    volumeLimit: string;
+}
+
 // Interface for Connected Account
 interface ConnectedAccount {
     address: string | null;
@@ -51,6 +61,8 @@ interface ConnectedAccount {
 interface ConnectedAccountContextType {
     connectedAccount: ConnectedAccount;
     setConnectedAccount: Dispatch<SetStateAction<ConnectedAccount>>;
+    createHook: CreateHook;
+    setCreateHook: Dispatch<SetStateAction<CreateHook>>;
 }
 
 // Creating Connected Account Context
@@ -63,14 +75,22 @@ const ConnectedAccountProvider = ({ children }: { children: ReactNode }) => {
         address: null,
         status: 'disconnected',
     });
+    const [createHook, setCreateHook] = useState<CreateHook>({
+        pairToken1: null,
+        pairToken2: null,
+        fee: 0,
+        hookName: '',
+        hookAddress: '',
+        volumeLimit: '',
+    });
 
     // Update the connected account state when address or status changes
-    React.useEffect(() => {
+    useEffect(() => {
         setConnectedAccount({ address, status });
     }, [address, status]);
 
     return (
-        <ConnectedAccountContext.Provider value={{ connectedAccount, setConnectedAccount }}>
+        <ConnectedAccountContext.Provider value={{ connectedAccount, setConnectedAccount, createHook, setCreateHook }}>
             {children}
         </ConnectedAccountContext.Provider>
     );
