@@ -23,3 +23,4 @@ export const COINS: Coin[] = [
 
 export const POOL_FACTORY_ADDRESS: `0x${string}` = process.env.NEXT_PUBLIC_POOL_FACTORY_ADDRESS as `0x${string}`;
 export const VERIFY_USERS_ADDRESS: `0x${string}` = process.env.NEXT_PUBLIC_VERIFY_USERS_ADDRESS as `0x${string}`;
+export const SWAP_ROUTER_ADDRESS: `0x${string}` = process.env.NEXT_PUBLIC_SWAP_ROUTER_ADDRESS as `0x${string}`;

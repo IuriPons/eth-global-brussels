@@ -16,7 +16,7 @@ import { COINS } from '@/constants';
 
 const SwapPage = () => {
     // Hooks
-    const { swap } = usePoolFactory();
+    const { swap, approve } = usePoolFactory();
 
     // States
     const [swapInfo, setSwapInfo] = useState<SwapInfo>({});
@@ -78,6 +78,8 @@ const SwapPage = () => {
         if (!sellCoin || !buyCoin || !sellAmount) {
             return;
         }
+
+        approve(sellCoin?.address, buyCoin?.address, sellAmount);
 
         swap(sellCoin?.address, buyCoin?.address, sellAmount);
     };
