@@ -3,8 +3,12 @@
 import { useState } from 'react';
 import { Box, Modal, Button, Typography } from '@mui/material';
 import Image from 'next/image';
+import { useConnectedAccount, useVerification } from '@/context/AppContext';
+import ConnectButton from '@/components/ui/ConnectButton';
 
 const SwapPage = () => {
+    const { verifyMessage } = useVerification();
+    const { connectedAccount } = useConnectedAccount();
     const [amountSell, setAmountSell] = useState('0');
     const [amountBuy, setAmountBuy] = useState('0');
     const [isModalOpen1, setIsModalOpen1] = useState(false);
@@ -53,14 +57,13 @@ const SwapPage = () => {
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '95vh' }}>
             <div className='coin-box mx-auto p-6 rounded-lg'>
-                <h1 className='text-2xl mb-6'>Swap</h1>
                 <div className='mb-4'>
-                    <p className='font-bold'>Sell</p>
-                    <div className='flex flex-col p-2 my-2 border border-primary rounded-lg z-1 relative'>
+                    <div className='div-slanted p-2 my-2 relative ml-20'>
+                        <p className='div-slanted-text'>SELL</p>
                         <input
                             type='text'
-                            className='bg-transparent w-full pr-20 h-16 text-lg'
-                            placeholder='Enter sell amount'
+                            className='input-slanted bg-transparent w-full pr-20 h-16 text-lg'
+                            placeholder=''
                             value={amountSell}
                             onInput={handleSellInput}
                         />
@@ -69,28 +72,31 @@ const SwapPage = () => {
                             onClick={handleModalOpen1}
                         >
                             {selectedTokenSell ? (
-                                <div className='flex items-center space-x-2'>
+                                <div className='flex items-center space-x-2 selected-token-div'>
+                                    <p>{selectedTokenSell}</p>
                                     <Image
                                         src={`/${selectedTokenSell}.png`}
                                         alt={selectedTokenSell}
-                                        width={20}
-                                        height={20}
+                                        width={50}
+                                        height={50}
                                     />
-                                    <p>{selectedTokenSell}</p>
                                 </div>
                             ) : (
-                                'Select Token'
+                                <div className='flex items-center space-x-2 select-div'>
+                                    <p>SELECT</p>
+                                    <div className='circle-div'></div>
+                                </div>
                             )}
                         </button>
                     </div>
                 </div>
                 <div className='mb-4'>
-                    <p className='font-bold'>Buy</p>
-                    <div className='flex flex-col p-2 my-2 border border-primary rounded-lg relative'>
+                    <div className='div-slanted p-2 my-2 relative'>
+                        <p className='div-slanted-text'>BUY</p>
                         <input
                             type='text'
-                            className='bg-transparent w-full pr-20 h-16 text-lg'
-                            placeholder='Enter buy amount'
+                            className='input-slanted bg-transparent w-full pr-20 h-16 text-lg'
+                            placeholder=''
                             value={amountBuy}
                             onInput={handleBuyInput}
                         />
@@ -99,31 +105,29 @@ const SwapPage = () => {
                             onClick={handleModalOpen2}
                         >
                             {selectedTokenBuy ? (
-                                <div className='flex items-center space-x-2'>
+                                <div className='flex items-center space-x-2 selected-token-div'>
+                                    <p>{selectedTokenBuy}</p>
                                     <Image
                                         src={`/${selectedTokenBuy}.png`}
                                         alt={selectedTokenBuy}
-                                        width={20}
-                                        height={20}
+                                        width={50}
+                                        height={50}
                                     />
-                                    <p>{selectedTokenBuy}</p>
                                 </div>
                             ) : (
-                                'Select Token'
+                                <div className='flex items-center space-x-2 select-div'>
+                                    <p>SELECT</p>
+                                    <div className='circle-div'></div>
+                                </div>
                             )}
                         </button>
                     </div>
                 </div>
-                <button
-                    className='mt-10 flex flex-row items-center justify-around w-full bg-white bg-opacity-20 rounded-lg shadow-md backdrop-filter backdrop-blur-md border border-white border-opacity-30 p-4'
-                    style={{
-                        background: 'linear-gradient(#05FFE6, #510CA7)',
-                        color: 'white',
-                    }}
-                    onClick={() => console.log('confirmed')}
-                >
-                    Confirm Swap
-                </button>
+                <div className='flex'>
+                    <button className='swap-button' onClick={() => console.log('confirmed')}>
+                        <p className='swap-button-text'>SWAP</p>
+                    </button>
+                </div>
             </div>
 
             <Modal
