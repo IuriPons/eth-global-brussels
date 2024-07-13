@@ -2,12 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Kanit', sans-serif;
+    position: relative;
+    min-height: 100vh;
+    background-image: url('/background.png');
+    background-repeat: repeat-x;
+    background-position: bottom center;
+    background-size: auto;
+    font-size: 18px;
+}
+
+input:focus {
+    outline: none;
+}
+
+.logo {
+    margin-right: 20px;
+}
+
 .coin-box {
     width: 436px;
     height: 643px;
     max-width: 436px;
-    border-radius: 25px;
-    border: 1px solid rgb(64, 61, 63);
+    /* border-radius: 25px;
+    border: 1px solid rgb(64, 61, 63); */
     margin-bottom: 15px;
     box-shadow: rgb(255, 255, 255) 0px 2px 20px;
 }
@@ -20,9 +42,37 @@
 }
 
 .select-button {
-    color: black;
-    border: 1px solid rgb(64, 61, 63);
-    border-radius: 20px;
+    color: #288ed7;
+    transform: skew(14deg);
+    margin-top: 8px;
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: 100;
+}
+
+.selected-token-div {
+    position: absolute;
+    right: 15px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.select-div {
+    position: absolute;
+    right: -30px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.circle-div {
+    width: 50px;
+    height: 50px;
+    border: 2px solid #288ed7;
+    border-radius: 50%;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-container {
@@ -48,6 +98,56 @@
     justify-content: 'center';
     align-items: 'center';
     height: '95vh';
+}
+
+.nav-button {
+    color: #174078;
+}
+
+.nav-button-inactive {
+    color: #acd1fa;
+}
+
+.div-slanted {
+    transform: skew(-14deg);
+    background-color: #f4f9fd;
+    width: 361px;
+    height: 123px;
+    display: flex;
+    align-items: center;
+}
+
+.div-slanted-text {
+    color: #288ed7;
+    transform: skew(14deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: 8px;
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: 100;
+}
+
+.input-slanted {
+    transform: skew(14deg);
+    color: #82f27e;
+    padding: 8px;
+    padding-left: 10px;
+    font-size: 2.8rem;
+}
+
+.swap-button {
+    transform: skew(-14deg);
+    background-color: #82f27e;
+    width: 145px;
+    height: 48px;
+    margin: auto;
+}
+
+.swap-button-text {
+    color: #174078;
+    transform: skew(14deg);
 }
 
 @media screen and (max-width: 480px) {
