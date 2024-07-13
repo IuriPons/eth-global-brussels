@@ -5,7 +5,7 @@ import { Box, Modal, Button } from '@mui/material';
 import Image from 'next/image';
 import { useConnectedAccount } from '@/context/AppContext';
 
-const SwapPage = () => {
+const CreatePage = () => {
     const { setCreateHook } = useConnectedAccount();
     const [pairToken1, setPairToken1] = useState('');
     const [pairToken2, setPairToken2] = useState('');
@@ -335,4 +335,4 @@ const SwapPage = () => {
     );
 };
 
-export default SwapPage;
+export default CreatePage;
