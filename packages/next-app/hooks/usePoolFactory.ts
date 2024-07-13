@@ -19,7 +19,14 @@ const usePoolFactory = () => {
             address: POOL_FACTORY_ADDRESS,
             abi: PoolFactoryABI,
             functionName: 'initPool',
-            args: [coin1Address, coin2Address, hook, fee, 79228162514264337593543950336, '0x00'],
+            args: [
+                coin1Address,
+                coin2Address,
+                hook ?? '0x0000000000000000000000000000000000000000',
+                fee,
+                79228162514264337593543950336,
+                '0x00',
+            ],
         });
     };
 
