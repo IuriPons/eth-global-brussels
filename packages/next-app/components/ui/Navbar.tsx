@@ -14,7 +14,12 @@ export default function Navbar() {
     return (
         <>
             <AppBar position='static'>
-                <Toolbar sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
+                <Toolbar
+                    sx={{
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                    }}
+                >
                     <div className='flex items-center space-x-4'>
                         <Link href='/' passHref>
                             <Image src='/applogo.gif' alt='App Logo' width={200} height={100} />
