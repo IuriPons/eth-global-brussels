@@ -30,7 +30,20 @@ const usePoolFactory = () => {
         });
     };
 
-    return { createPool };
+    const swap = async (currencyToSell: string, currencyToBuy: string, amount: number) => {
+        await writeContractAsync({
+            address: POOL_FACTORY_ADDRESS,
+            abi: PoolFactoryABI,
+            functionName: 'swap',
+            args: [
+                currencyToSell,
+                currencyToBuy,
+                amount
+            ],
+        });
+    };
+
+    return { createPool, swap };
 };
 
 export default usePoolFactory;

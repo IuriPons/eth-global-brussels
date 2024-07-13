@@ -5,6 +5,9 @@ import { Box, Button, Modal } from '@mui/material';
 import Image from 'next/image';
 import { useState } from 'react';
 
+// Hooks
+import usePoolFactory from '@/hooks/usePoolFactory';
+
 // Types
 import { SwapInfo } from '@/types';
 
@@ -12,6 +15,10 @@ import { SwapInfo } from '@/types';
 import { COINS } from '@/constants';
 
 const SwapPage = () => {
+    // Hooks
+    const { swap } = usePoolFactory();
+
+    // States
     const [swapInfo, setSwapInfo] = useState<SwapInfo>({});
     const [isChoosingSellingToken, setIsChoosingSellingToken] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -67,6 +74,12 @@ const SwapPage = () => {
 
     const handleSubmit = () => {
         console.log('Swap Info:', swapInfo);
+
+        if (!sellCoin || !buyCoin || !sellAmount) {
+            return;
+        }
+
+        swap(sellCoin?.address, buyCoin?.address, sellAmount);
     };
 
     return (
