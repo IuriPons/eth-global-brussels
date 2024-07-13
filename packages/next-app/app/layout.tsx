@@ -4,12 +4,16 @@ import { config } from '@/config';
 import Web3ModalProvider from '@/context';
 import { AppProvider } from '@/context/AppContext';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import { headers } from 'next/headers';
 import { cookieToInitialState } from 'wagmi';
 import './globals.css';
+import { Kanit } from 'next/font/google';
 
-const inter = Inter({ subsets: ['latin'] });
+const kanit = Kanit({
+    weight: '300',
+    style: 'normal',
+    subsets: ['latin'],
+});
 
 export const metadata: Metadata = {
     title: 'Create Next App',
@@ -24,7 +28,7 @@ export default function RootLayout({
     const initialState = cookieToInitialState(config, headers().get('cookie'));
     return (
         <html lang='en'>
-            <body className={inter.className}>
+            <body className={kanit.className}>
                 <ThemeProvider>
                     <Web3ModalProvider initialState={initialState}>
                         <AppProvider>

@@ -2,8 +2,8 @@
 
 import ConnectButton from '@/components/ui/ConnectButton';
 import VerifyButton from '@/components/ui/VerifyButton';
-import { AppBar, Toolbar, Typography } from '@mui/material';
-import { useVerification, useConnectedAccount } from '@/context/AppContext';
+import { useConnectedAccount, useVerification } from '@/context/AppContext';
+import { AppBar, Toolbar } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -13,13 +13,8 @@ export default function Navbar() {
 
     return (
         <>
-            <AppBar position='static'>
-                <Toolbar
-                    sx={{
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                    }}
-                >
+            <AppBar position='static' sx={{ backgroundColor: '#510CA7' }}>
+                <Toolbar sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                     <div className='flex items-center space-x-4'>
                         <Link href='/' passHref>
                             <Image src='/applogo.gif' alt='App Logo' width={200} height={100} />
@@ -30,8 +25,8 @@ export default function Navbar() {
                         <Link href='/pools' passHref>
                             <button>POOLS</button>
                         </Link>
-                        <Link href='/swipe' passHref>
-                            <button>SWIPE</button>
+                        <Link href='/swap' passHref>
+                            <button>SWAP</button>
                         </Link>
                     </div>
                     <div className='flex items-center space-x-4'>
