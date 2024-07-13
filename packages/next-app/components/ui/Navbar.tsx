@@ -42,7 +42,7 @@ export default function Navbar() {
                             width={24}
                             height={24}
                             style={{ borderRadius: '6px', marginRight: '2px' }}
-                            src='/eth.png'
+                            src='/eth-logo.png'
                         />
                         {/* <img alt="eth" className="eth-logo" src="/eth.png" /> */}
                         <ConnectButton />

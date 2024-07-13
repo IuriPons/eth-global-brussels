@@ -91,7 +91,7 @@ const SwapPage = () => {
                     display: 'flex',
                     justifyContent: 'space-evenly',
                     alignItems: 'center',
-                    height: '100vh',
+                    height: '95vh',
                     padding: '0 12% 14% 12%',
                 }}
             >
