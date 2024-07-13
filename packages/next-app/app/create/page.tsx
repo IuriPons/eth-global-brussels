@@ -74,7 +74,7 @@ const SwapPage = () => {
         <div className='row flex'>
             <Box
                 sx={{
-                    height: '100vh',
+                    height: '95vh',
                     padding: '8% 12% 12% 12%',
                     margin: 'auto',
                 }}

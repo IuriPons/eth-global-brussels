@@ -185,8 +185,7 @@ input:focus {
 .create-title {
     font-size: 18px;
     font-weight: bold;
-    margin-top: 40px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .swap-button,
@@ -197,6 +196,15 @@ input:focus {
     height: 48px;
     margin: auto;
 }
+
+.swap-button-grey {
+    transform: skew(-14deg);
+        background-color: lightgrey;
+        width: 145px;
+        height: 48px;
+        margin: auto;
+}
+
 
 .swap-button-text,
 .create-button-text {
