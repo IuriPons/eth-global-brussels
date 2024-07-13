@@ -1,8 +1,8 @@
 export type SwapInfo = {
     sellAmount?: number;
-    sellCoin: Coin;
+    sellCoin?: Coin;
     buyAmount?: number;
-    buyCoin: Coin;
+    buyCoin?: Coin;
 };
 
 export type Coin = {

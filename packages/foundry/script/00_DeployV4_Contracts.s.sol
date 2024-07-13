@@ -30,15 +30,17 @@ contract CreatePoolScriptWithHook is Script, Deployers {
         // Deploy v4-core
         deployFreshManagerAndRouters();
 
-        (currency0, currency1) = deployMintAndApprove2Currencies();
+        // (currency0, currency1) = deployMintAndApprove2Currencies();
 
-        console.log("Deploy 2 tokens...");
+        console.log("Manager:", address(manager));
+        console.log("swapRouter:", address(swapRouter));
+        console.log("liquidityRouter:", address(modifyLiquidityRouter));
 
         console.log("Deploy Pool Factory");
 
-        PoolFactory poolFactory = new PoolFactory(manager);
+        PoolFactory poolFactory = new PoolFactory(manager, address(swapRouter));
 
-        console.log("Address:", address(poolFactory));
+        console.log("PoolFactory Address:", address(poolFactory));
         
         vm.stopBroadcast();
     }

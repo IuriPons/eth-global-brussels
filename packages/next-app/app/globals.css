@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+    /* For Chrome, Safari, Edge, and Opera */
+    input[type='number']::-webkit-outer-spin-button,
+    input[type='number']::-webkit-inner-spin-button {
+        @apply appearance-none m-0;
+    }
+
+    /* For Firefox */
+    input[type='number'] {
+        @apply appearance-none;
+        /* Manually set appearance for Firefox */
+        -moz-appearance: textfield;
+    }
+}
+
 body {
     margin: 0;
     padding: 0;

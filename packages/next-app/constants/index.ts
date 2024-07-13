@@ -2,42 +2,25 @@ import { Coin } from '@/types';
 
 export const COINS: Coin[] = [
     {
-        name: 'Ether',
-        symbol: 'ETH',
-        icon: '/assets/icons/ethereum.png',
-        address: '0x0000000000000000000000000000000000000000',
-    },
-    {
         name: 'Tether',
         symbol: 'USDT',
-        icon: '/assets/icons/usdt.png',
-        address: '0x0000000000000000000000000000000000000001',
+        icon: 'usdt.png',
+        address: '0x5416adf327242B7224413Dcd6E454FfcB5C1e73C',
     },
     {
         name: 'DAI',
         symbol: 'DAI',
-        icon: '/assets/icons/dai.png',
-        address: '0x0000000000000000000000000000000000000002',
+        icon: 'dai.png',
+        address: '0x73c1A1437920ECFEC6Ac079d717CB75c0B0e9086',
     },
     {
         name: 'USD Coin',
         symbol: 'USDC',
-        icon: '/assets/icons/usdc.png',
+        icon: 'usdc.png',
         address: '0x0000000000000000000000000000000000000003',
-    },
-    {
-        name: 'Wrapped Bitcoin',
-        symbol: 'WBTC',
-        icon: '/assets/icons/wbtc.png',
-        address: '0x0000000000000000000000000000000000000004',
-    },
-    {
-        name: 'Wrapped Ether',
-        symbol: 'WETH',
-        icon: '/assets/icons/weth.png',
-        address: '0x0000000000000000000000000000000000000005',
     },
 ];
 
 export const POOL_FACTORY_ADDRESS: `0x${string}` = process.env.NEXT_PUBLIC_POOL_FACTORY_ADDRESS as `0x${string}`;
 export const VERIFY_USERS_ADDRESS: `0x${string}` = process.env.NEXT_PUBLIC_VERIFY_USERS_ADDRESS as `0x${string}`;
+export const SWAP_ROUTER_ADDRESS: `0x${string}` = process.env.NEXT_PUBLIC_SWAP_ROUTER_ADDRESS as `0x${string}`;
