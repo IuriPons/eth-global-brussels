@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Box, Modal, Button, Typography } from '@mui/material';
 import Image from 'next/image';
 
-const PoolCreationPage = () => {
+const SwapPage = () => {
     const [amountSell, setAmountSell] = useState('0');
     const [amountBuy, setAmountBuy] = useState('0');
     const [isModalOpen1, setIsModalOpen1] = useState(false);
@@ -234,4 +234,4 @@ const PoolCreationPage = () => {
     );
 };
 
-export default PoolCreationPage;
+export default SwapPage;
