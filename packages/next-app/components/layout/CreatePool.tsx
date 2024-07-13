@@ -6,7 +6,14 @@ import PoolCreationForm from '@/components/ui/PoolCreationForm';
 
 const CreatePool = () => {
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+        <Box
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '80vh',
+            }}
+        >
             <PoolCreationForm />
         </Box>
     );

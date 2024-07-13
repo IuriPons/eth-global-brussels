@@ -5,6 +5,9 @@ import { useState } from 'react';
 // MUI
 import { Box, Button, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 
+// Hooks
+import usePoolFactory from '@/hooks/usePoolFactory';
+
 // Types
 import { PoolCreationInfo } from '@/types';
 
@@ -12,6 +15,10 @@ import { PoolCreationInfo } from '@/types';
 import { COINS } from '@/constants';
 
 const PoolCreationForm = () => {
+    // Pool Factory Hook
+    const { createPool } = usePoolFactory();
+
+    // States
     const [poolCreationInfo, setPoolCreationInfo] = useState<PoolCreationInfo>({
         coin1: COINS[0],
         coin2: COINS[1],
@@ -31,7 +38,11 @@ const PoolCreationForm = () => {
                 newCoin2 = coin1;
             }
 
-            setPoolCreationInfo({ ...poolCreationInfo, coin1: newCoin1, coin2: newCoin2 });
+            setPoolCreationInfo({
+                ...poolCreationInfo,
+                coin1: newCoin1,
+                coin2: newCoin2,
+            });
         }
     };
 
@@ -45,11 +56,23 @@ const PoolCreationForm = () => {
                 newCoin1 = coin2;
             }
 
-            setPoolCreationInfo({ ...poolCreationInfo, coin1: newCoin1, coin2: newCoin2 });
+            setPoolCreationInfo({
+                ...poolCreationInfo,
+                coin1: newCoin1,
+                coin2: newCoin2,
+            });
         }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {};
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        await createPool(
+            '0x0000000000000000000000000000000000000000',
+            '0x0000000000000000000000000000000000000001',
+            300
+        );
+    };
 
     return (
         <Box
@@ -79,13 +102,23 @@ const PoolCreationForm = () => {
                 type='number'
                 label='Fee'
                 value={fee}
-                onChange={e => setPoolCreationInfo({ ...poolCreationInfo, fee: +e.target.value })}
+                onChange={e =>
+                    setPoolCreationInfo({
+                        ...poolCreationInfo,
+                        fee: +e.target.value,
+                    })
+                }
             />
 
             <TextField
                 label='Hook'
                 value={hook}
-                onChange={e => setPoolCreationInfo({ ...poolCreationInfo, hook: e.target.value })}
+                onChange={e =>
+                    setPoolCreationInfo({
+                        ...poolCreationInfo,
+                        hook: e.target.value,
+                    })
+                }
                 sx={{ width: 500 }}
             />
 

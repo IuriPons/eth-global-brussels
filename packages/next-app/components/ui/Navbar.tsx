@@ -2,8 +2,8 @@
 
 import ConnectButton from '@/components/ui/ConnectButton';
 import VerifyButton from '@/components/ui/VerifyButton';
-import { AppBar, Toolbar, Typography } from '@mui/material';
-import { useVerification, useConnectedAccount } from '@/context/AppContext';
+import { useConnectedAccount, useVerification } from '@/context/AppContext';
+import { AppBar, Toolbar } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 

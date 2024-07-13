@@ -1,55 +1,55 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.24;
+pragma solidity ^0.8.20;
 
 import "forge-std/Script.sol";
-import {Vm} from "forge-std/Test.sol";
-import {Currency, CurrencyLibrary} from "v4-core/types/Currency.sol";
-import {IPoolManager} from "v4-core/interfaces/IPoolManager.sol";
+import "forge-std/console.sol";
+// import {IPoolManager} from "v4-core/src/interfaces/IPoolManager.sol";
+// import {PoolManager} from "v4-core/src/PoolManager.sol";
 import {IHooks} from "v4-core/interfaces/IHooks.sol";
 import {PoolKey} from "v4-core/types/PoolKey.sol";
+import {CurrencyLibrary, Currency} from "v4-core/types/Currency.sol";
 import {PoolId, PoolIdLibrary} from "v4-core/types/PoolId.sol";
 
-import {Hook} from "../src/Hook.sol";
-
+import {PoolFactory} from "../src/PoolFactory.sol";
 contract CreatePoolScript is Script {
     using CurrencyLibrary for Currency;
+    using PoolIdLibrary for PoolKey;
 
-    //addresses with contracts deployed
-    address constant GOERLI_POOLMANAGER = address(0x3A9D48AB9751398BbFa63ad67599Bb04e4BdF98b); //pool manager deployed to GOERLI
-    address constant MUNI_ADDRESS = address(0xbD97BF168FA913607b996fab823F88610DCF7737); //mUNI deployed to GOERLI -- insert your own contract address here
-    address constant MUSDC_ADDRESS = address(0xa468864e673a807572598AB6208E49323484c6bF); //mUSDC deployed to GOERLI -- insert your own contract address here
-    address constant HOOK_ADDRESS = address(0x3CA2cD9f71104a6e1b67822454c725FcaeE35fF6); //address of the hook contract deployed to goerli -- you can use this hook address or deploy your own!
+    
+    
 
-    IPoolManager manager = IPoolManager(GOERLI_POOLMANAGER);
+    
 
+    PoolFactory constant poolFactory = PoolFactory(0x851356ae760d987E095750cCeb3bC6014560891C);
     function run() external {
-        // sort the tokens!
-        address token0 = uint160(MUSDC_ADDRESS) < uint160(MUNI_ADDRESS) ? MUSDC_ADDRESS : MUNI_ADDRESS;
-        address token1 = uint160(MUSDC_ADDRESS) < uint160(MUNI_ADDRESS) ? MUNI_ADDRESS : MUSDC_ADDRESS;
-        uint24 swapFee = 4000;
-        int24 tickSpacing = 10;
+        vm.startBroadcast();
 
-        // floor(sqrt(1) * 2^96)
-        uint160 startingPrice = 79228162514264337593543950336;
+        Currency currency0 = Currency.wrap(address(0));
+        Currency currency1 =  Currency.wrap(address(1));
+        Currency currency3 =  Currency.wrap(address(2));
+        IHooks hook = IHooks(address(0));
 
-        bytes memory hookData = abi.encode(block.timestamp);
+        // address manager = address(poolFactory.manager());
+        console.log(address(poolFactory).code.length);
 
-        PoolKey memory pool = PoolKey({
-            currency0: Currency.wrap(token0),
-            currency1: Currency.wrap(token1),
-            fee: swapFee,
-            tickSpacing: tickSpacing,
-            hooks: IHooks(HOOK_ADDRESS)
-        });
+        vm.txGasPrice(10 gwei);
 
-        // Turn the Pool into an ID so you can use it for modifying positions, swapping, etc.
-        PoolId id = PoolIdLibrary.toId(pool);
-        bytes32 idBytes = PoolId.unwrap(id);
+        (PoolKey memory _key, PoolId _id) = poolFactory.initPool(currency0,currency1, IHooks(0x0000000000000000000000000000000000000000), 300, 79228162514264337593543950336, "0x00");
+        
+        uint256 value = poolFactory.counter();
 
-        console.log("Pool ID Below");
-        console.logBytes32(bytes32(idBytes));
+        console.log("Number of pools:", value);
 
-        vm.broadcast();
-        manager.initialize(pool, startingPrice, hookData);
+        (PoolKey memory _key2, PoolId _id2) = poolFactory.initPool(currency0,currency3, IHooks(0x0000000000000000000000000000000000000000), 300, 79228162514264337593543950336, "0x00");
+
+
+        uint256 value2 = poolFactory.counter();
+
+        console.log("PoolFee:", _key.fee);
+        console.log("Number of pools:", value2);
+        // PoolId id = bytes32(_key.toId());
+
+        vm.stopBroadcast();
+        
     }
 }
