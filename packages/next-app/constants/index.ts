@@ -5,13 +5,13 @@ export const COINS: Coin[] = [
         name: 'Tether',
         symbol: 'USDT',
         icon: 'usdt.png',
-        address: '0x0000000000000000000000000000000000000001',
+        address: '0x5416adf327242B7224413Dcd6E454FfcB5C1e73C',
     },
     {
         name: 'DAI',
         symbol: 'DAI',
         icon: 'dai.png',
-        address: '0x0000000000000000000000000000000000000002',
+        address: '0x73c1A1437920ECFEC6Ac079d717CB75c0B0e9086',
     },
     {
         name: 'USD Coin',

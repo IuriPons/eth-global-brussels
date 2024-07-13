@@ -51,9 +51,9 @@ contract CreatePoolScript is Script {
 
         (PoolKey memory _key, PoolId _id) = poolFactory.initPool{gas: 3000000}(currency0,currency1, IHooks(0x0000000000000000000000000000000000000000), 300, 79228162514264337593543950336, "0x00");
         
-        uint256 value = poolFactory.counter();
+        // uint256 value = poolFactory.counter();
 
-        console.log("Number of pools:", value);
+        // console.log("Number of pools:", value);
 
         // add liquidity
         bytes memory hookData = new bytes(0);
@@ -62,7 +62,7 @@ contract CreatePoolScript is Script {
         
         IERC20(token1).approve(address(liquidityProvider), type(uint256).max);
 
-        liquidityProvider.modifyLiquidity(_key, IPoolManager.ModifyLiquidityParams(-600, 600, 10000, 0), hookData);
+        liquidityProvider.modifyLiquidity(_key, IPoolManager.ModifyLiquidityParams(-600, 600, 100 ether, 0), hookData);
 
         // (PoolKey memory _key2, PoolId _id2) = poolFactory.initPool(currency0,currency3, IHooks(0x0000000000000000000000000000000000000000), 300, 79228162514264337593543950336, "0x00");
 

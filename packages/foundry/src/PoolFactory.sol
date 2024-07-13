@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import "forge-std/console.sol";
+
 import {CurrencyLibrary, Currency} from "v4-core/types/Currency.sol";
 import {PoolKey} from "v4-core/types/PoolKey.sol";
 import {PoolId, PoolIdLibrary} from "v4-core/types/PoolId.sol";
@@ -47,12 +49,13 @@ contract PoolFactory {
         _key = PoolKey(_currency0, _currency1, fee, 60, hooks);
         manager.initialize(_key, sqrtPriceX96, initData); 
         countPools = countPools + 1;
-        bytes32 poolId = getPoolId(currency0, currency1);
+        bytes32 poolId = getPoolId(Currency.unwrap(token0), Currency.unwrap(token1));
         poolInfos[poolId] =  _key;
+        console.logBytes32(poolId);
     }
 
     function getPoolId(address currency0, address currency1) internal returns(bytes32) {
-        (address token0, address token1) = _currency0 < _currency1 ? (_currency0, _currency1) : (_currency1, _currency0);
+        (address token0, address token1) = currency0 < currency1 ? (currency0, currency1) : (currency1, currency0);
         return keccak256(abi.encodePacked(currency0, currency1));
     }
 
@@ -64,15 +67,16 @@ contract PoolFactory {
 
         bool zeroForOne;
         bytes32 poolId = getPoolId(currency0, currency1);
+        console.logBytes32(poolId);
 
         PoolKey memory pool = poolInfos[poolId];
 
-        zeroForOne = currency0 == pool.currency0;
+        zeroForOne = Currency.wrap(currency0) == pool.currency0;
 
         IPoolManager.SwapParams memory params = IPoolManager.SwapParams({
             zeroForOne: zeroForOne,
             amountSpecified: zeroForOne ? amount : -amount,
-            sqrtPriceLimitX96: TickMath.MAX_SQRT_PRICE - 1 // unlimited impact
+            sqrtPriceLimitX96:  zeroForOne ? TickMath.MIN_SQRT_PRICE + 1 : TickMath.MAX_SQRT_PRICE  // unlimited impact
         });
 
         PoolSwapTest.TestSettings memory testSettings = PoolSwapTest.TestSettings({takeClaims: false, settleUsingBurn: false});
