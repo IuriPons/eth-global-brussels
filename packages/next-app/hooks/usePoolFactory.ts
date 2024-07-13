@@ -32,29 +32,18 @@ const usePoolFactory = () => {
         });
     };
 
-    // const swap = async (currencyToSell: string, currencyToBuy: string, amount: number) => {
-    //     await writeContractAsync({
-    //         address: POOL_FACTORY_ADDRESS,
-    //         abi: PoolFactoryABI,
-    //         functionName: 'swap',
-    //         args: [
-    //             currencyToSell,
-    //             currencyToBuy,
-    //             amount
-    //         ],
-    //     });
-    // };
-
     const approve = async (currencyToSell: string, currencyToBuy: string, amount: number) => {
         await writeContractAsync({
             address: currencyToSell as `0x${string}`,
             abi: IERC20ABI,
             functionName: 'approve',
-            args: [SWAP_ROUTER_ADDRESS, amount],
+            args: [SWAP_ROUTER_ADDRESS, amount * 10 ** 18],
         });
     };
 
     const swap = async (currencyToSell: string, currencyToBuy: string, amount: number) => {
+        const zeroForOne = currencyToSell < currencyToBuy;
+
         await writeContractAsync({
             address: SWAP_ROUTER_ADDRESS,
             abi: ISwapRouterABI,
@@ -68,8 +57,8 @@ const usePoolFactory = () => {
                     hooks: '0x0000000000000000000000000000000000000000',
                 },
                 {
-                    zeroForOne: true,
-                    amountSpecified: amount,
+                    zeroForOne: zeroForOne,
+                    amountSpecified: amount * 10 ** 18,
                     sqrtPriceLimitX96: 4295128739 + 1,
                 },
                 { takeClaims: false, settleUsingBurn: false },
