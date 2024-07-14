@@ -17,16 +17,19 @@ const usePools = () => {
         abi: PoolFactoryABI,
         functionName: 'getPools',
     });
+    
+    console.log(error)
 
     // States
     const [pools, setPools] = useState<Pool[]>([]);
 
     useEffect(() => {
+        
         if (data && Array.isArray(data)) {
             const parse: Pool[] = data.map((pool: any) => {
                 const currency0 = COINS.find(coin => coin.address === pool.currency0);
                 const currency1 = COINS.find(coin => coin.address === pool.currency1);
-                const hook = HOOKS.find(hook => hook.address === pool.hook);
+                const hook = HOOKS.find(hook => hook.address === pool.hooks);
 
                 return {
                     currency0,
