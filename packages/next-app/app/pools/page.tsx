@@ -1,8 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Box } from '@mui/material';
 import LiquidityPage from '@/components/layout/LiquidityPage';
+import { Box } from '@mui/material';
+import { useState } from 'react';
+
+// Hooks
+import usePools from '@/hooks/usePools';
+
+// Types
+import { Pool } from '@/types';
 
 // Define the data type
 interface PairData {
@@ -17,12 +23,16 @@ const data: PairData[] = [
     { pair: 'USDC / ETH', hook: 'Hook 2', apr: 9.047 },
 ];
 
-const PoolsPage: React.FC = () => {
+const PoolsPage = () => {
+    // Pools Hook
+    const { pools, error, isLoading } = usePools();
+
+    // States
     const [selectedPair, setSelectedPair] = useState<{ pairToken1: string; pairToken2: string } | null>(null);
 
-    const handleAddLiquidity = (pair: string) => {
-        const [pairToken1, pairToken2] = pair.split(' / ');
-        setSelectedPair({ pairToken1, pairToken2 });
+    const handleAddLiquidity = (pool: Pool) => {
+        // const [pairToken1, pairToken2] = pair.split(' / ');
+        // setSelectedPair({ pairToken1, pairToken2 });
     };
 
     const handleCloseModal = () => {
@@ -43,19 +53,23 @@ const PoolsPage: React.FC = () => {
                         <thead>
                             <tr>
                                 <th>Pair</th>
+                                <th>Fee</th>
                                 <th>Hook</th>
-                                <th>APR</th>
+                                <th>Liquidity</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            {data.map((row, index) => (
+                            {pools.map((pool, index) => (
                                 <tr key={index}>
-                                    <td className='pair'>{row.pair}</td>
-                                    <td>{row.hook}</td>
-                                    <td>{row.apr.toFixed(3)}%</td>
+                                    <td className='pair'>
+                                        {pool.currency0?.symbol} / {pool.currency1?.symbol}
+                                    </td>
+                                    <td>{pool.fee}</td>
+                                    <td>{pool.hook?.name}</td>
+                                    <td>10 M / 2 M</td>
                                     <td>
-                                        <button onClick={() => handleAddLiquidity(row.pair)}>Add Liquidity</button>
+                                        <button onClick={() => handleAddLiquidity(pool)}>Add Liquidity</button>
                                     </td>
                                 </tr>
                             ))}

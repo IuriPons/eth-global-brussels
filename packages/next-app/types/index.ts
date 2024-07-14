@@ -25,3 +25,10 @@ export type PoolCreationInfo = {
     hook?: Hook;
     volumeLimit?: number;
 };
+
+export type Pool = {
+    currency0?: Coin;
+    currency1?: Coin;
+    fee: number;
+    hook?: Hook;
+};
