@@ -68,6 +68,15 @@ const usePoolFactory = () => {
         });
     };
 
+    const approveLiquidity = async (currencyAddress: `0x${string}`, amount: number) => {
+        await writeContractAsync({
+            address: currencyAddress,
+            abi: IERC20ABI,
+            functionName: 'approve',
+            args: [LIQUIDITY_PROVIDER_ADDRESS, amount * 10 ** 18],
+        });
+    };
+
     const addLiquidity = async (
         currency0: string,
         currency1: string,
@@ -91,14 +100,14 @@ const usePoolFactory = () => {
                     tickLower: -600,
                     tickUpper: 600,
                     liquidityDelta: amount0,
-                    salt: 0,
+                    salt: '0x0000000000000000000000000000000000000000000000000000000000000000',
                 },
                 '0x00',
             ],
         });
     };
 
-    return { createPool, swap, approve, addLiquidity };
+    return { createPool, swap, approve, addLiquidity, approveLiquidity };
 };
 
 export default usePoolFactory;

@@ -19,7 +19,7 @@ interface Props {
 
 const LiquidityPage = ({ open, onClose, pool }: Props) => {
     // Pool Factory Hook
-    const { approve, addLiquidity } = usePoolFactory();
+    const { approveLiquidity, addLiquidity } = usePoolFactory();
 
     // States
     const [addLiquidityInfo, setAddLiquidityInfo] = useState<AddLiquidtyInfo>({
@@ -42,23 +42,19 @@ const LiquidityPage = ({ open, onClose, pool }: Props) => {
     };
 
     const handleCreatePool = async () => {
-        try {
-            if (!token0 || !token1) {
-                return;
-            }
-
-            await approve(token0.address as `0x${string}`, amount0);
-            await approve(token1.address as `0x${string}`, amount1);
-            await addLiquidity(
-                token0.address as `0x${string}`,
-                token1.address as `0x${string}`,
-                pool.fee,
-                amount0,
-                amount1
-            );
-        } catch (error) {
-            console.error(error);
+        if (!token0 || !token1) {
+            return;
         }
+
+        await approveLiquidity(token0.address as `0x${string}`, amount0);
+        await approveLiquidity(token1.address as `0x${string}`, amount1);
+        await addLiquidity(
+            token0.address as `0x${string}`,
+            token1.address as `0x${string}`,
+            pool.fee,
+            amount0,
+            amount1
+        );
     };
 
     return (

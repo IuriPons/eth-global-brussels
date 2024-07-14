@@ -66,7 +66,7 @@ const PoolsPage = () => {
                                     </td>
                                     <td>{pool.fee}</td>
                                     <td>{pool.hook?.name}</td>
-                                    <td>10 M / 2 M</td>
+                                    <td>10 M / 10 M</td>
                                     <td>
                                         <button onClick={() => handleAddLiquidity(pool)}>Add Liquidity</button>
                                     </td>
