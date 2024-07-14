@@ -82,7 +82,7 @@ const SwapPage = () => {
             return;
         }
 
-        approve(sellCoin?.address, buyCoin?.address, sellAmount);
+        approve(sellCoin?.address as `0x${string}`, sellAmount);
 
         swap(sellCoin?.address, buyCoin?.address, sellAmount);
     };
@@ -178,8 +178,8 @@ const SwapPage = () => {
                     <p className='last-text1'>TRANSACTION VOLUME</p>
                     <p className='last-text2'>Unlimited token/transaction</p>
                     {success ? (
-                        <button className='verified-button' onClick={open}>
-                            <img src='/worldcoinlogo-green.gif' alt='Worldcoin Logo' className='wc-logo' />
+                        <button className='verified-button'>
+                            <Image src='/worldcoinlogo-green.gif' alt='Worldcoin Logo' className='wc-logo' />
                             You are human!
                         </button>
                     ) : (

@@ -1,11 +1,14 @@
 'use client';
 
-import { Box, Button, Modal } from '@mui/material';
 import Image from 'next/image';
+import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 
 // Hooks
 import usePoolFactory from '@/hooks/usePoolFactory';
+
+// MUI
+import { Box, Button, Modal } from '@mui/material';
 
 // Types
 import { Hook, PoolCreationInfo } from '@/types';
@@ -16,6 +19,9 @@ import { COINS, HOOKS } from '@/constants';
 const CreatePage = () => {
     // Pool Factory Hook
     const { createPool } = usePoolFactory();
+
+    // Snackbar Hook
+    const { enqueueSnackbar } = useSnackbar();
 
     // States
     const [poolCreationInfo, setPoolCreationInfo] = useState<PoolCreationInfo>({});
@@ -34,11 +40,11 @@ const CreatePage = () => {
         setIsTokenSelectorModalOpen(false);
     };
 
-    const handleModalOpen3 = () => {
+    const handleHookSelectorModalOpen = () => {
         setIsHookSelectorModalOpen(true);
     };
 
-    const handleModalClose3 = () => {
+    const handleHookSelectorModalClose = () => {
         setIsHookSelectorModalOpen(false);
     };
 
@@ -80,7 +86,13 @@ const CreatePage = () => {
             return;
         }
 
-        await createPool(token0.address, token1.address, fee, hook?.address);
+        try {
+            await createPool(token0.address, token1.address, fee, hook?.address);
+
+            enqueueSnackbar('Pool Created Successfully', { variant: 'success' });
+        } catch (error) {
+            enqueueSnackbar('Failed to Create Pool', { variant: 'error' });
+        }
     };
 
     return (
@@ -178,7 +190,7 @@ const CreatePage = () => {
                     <div className='create-div-slanted p-2 my-2 relative ml-20'>
                         <button
                             className='create-select-button absolute right-2 top-2 bottom-2 px-2 my-2 flex items-center justify-center'
-                            onClick={handleModalOpen3}
+                            onClick={handleHookSelectorModalOpen}
                         >
                             {hook ? (
                                 <div className='flex items-center space-x-2 create-selected-token-div'>
@@ -264,7 +276,7 @@ const CreatePage = () => {
 
             <Modal
                 open={isHookSelectorModalOpen}
-                onClose={handleModalClose3}
+                onClose={handleHookSelectorModalClose}
                 aria-labelledby='select-hook-modal-title'
                 aria-describedby='select-hook-modal-description'
             >
@@ -303,7 +315,7 @@ const CreatePage = () => {
 
                         <Button
                             className='modal-close-button'
-                            onClick={handleModalClose3}
+                            onClick={handleHookSelectorModalClose}
                             variant='contained'
                             color='primary'
                         >

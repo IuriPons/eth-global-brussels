@@ -1,27 +1,18 @@
 'use client';
 
-import LiquidityPage from '@/components/layout/LiquidityPage';
-import { Box } from '@mui/material';
 import { useState } from 'react';
+
+// MUI
+import { Box } from '@mui/material';
+
+// Components
+import LiquidityPage from '@/components/layout/LiquidityPage';
 
 // Hooks
 import usePools from '@/hooks/usePools';
 
 // Types
 import { Pool } from '@/types';
-
-// Define the data type
-interface PairData {
-    pair: string;
-    hook: string;
-    apr: number;
-}
-
-// Sample data array
-const data: PairData[] = [
-    { pair: 'WBTC / ETH', hook: 'Hook 1', apr: 8.213 },
-    { pair: 'USDC / ETH', hook: 'Hook 2', apr: 9.047 },
-];
 
 const PoolsPage = () => {
     // Pools Hook
