@@ -142,7 +142,7 @@ const LiquidityPage = ({ open, onClose, pool }: Props) => {
                 </div>
                 <div className='flex mt-20'>
                     <button className='swap-button' onClick={handleCreatePool}>
-                        <p className='swap-button-text'>SWAP</p>
+                        <p className='swap-button-text'>Add</p>
                     </button>
                     <button className='swap-button-grey' onClick={onClose}>
                         <p className='swap-button-text'>Cancel</p>

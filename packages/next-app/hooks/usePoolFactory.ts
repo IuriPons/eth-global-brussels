@@ -99,7 +99,7 @@ const usePoolFactory = () => {
                 {
                     tickLower: -600,
                     tickUpper: 600,
-                    liquidityDelta: amount0,
+                    liquidityDelta: amount0 * 10 ** 18,
                     salt: '0x0000000000000000000000000000000000000000000000000000000000000000',
                 },
                 '0x00',
