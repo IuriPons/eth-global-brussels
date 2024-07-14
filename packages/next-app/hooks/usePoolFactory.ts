@@ -2,11 +2,12 @@ import { useWriteContract } from 'wagmi';
 
 // Contracts
 import IERC20ABI from '@/contracts/IERC20ABI';
+import ILiquidityProviderABI from '@/contracts/ILiquidityProviderABI';
 import ISwapRouterABI from '@/contracts/ISwapRouterABI';
 import PoolFactoryABI from '@/contracts/PoolFactoryABI';
 
 // Constants
-import { POOL_FACTORY_ADDRESS, SWAP_ROUTER_ADDRESS } from '@/constants';
+import { LIQUIDITY_PROVIDER_ADDRESS, POOL_FACTORY_ADDRESS, SWAP_ROUTER_ADDRESS } from '@/constants';
 
 const usePoolFactory = () => {
     const { writeContractAsync } = useWriteContract();
@@ -32,9 +33,9 @@ const usePoolFactory = () => {
         });
     };
 
-    const approve = async (currencyToSell: string, currencyToBuy: string, amount: number) => {
+    const approve = async (currencyAddress: `0x${string}`, amount: number) => {
         await writeContractAsync({
-            address: currencyToSell as `0x${string}`,
+            address: currencyAddress,
             abi: IERC20ABI,
             functionName: 'approve',
             args: [SWAP_ROUTER_ADDRESS, amount * 10 ** 18],
@@ -67,7 +68,37 @@ const usePoolFactory = () => {
         });
     };
 
-    return { createPool, swap, approve };
+    const addLiquidity = async (
+        currency0: string,
+        currency1: string,
+        fee: number,
+        amount0: number,
+        amount1: number
+    ) => {
+        await writeContractAsync({
+            address: LIQUIDITY_PROVIDER_ADDRESS,
+            abi: ILiquidityProviderABI,
+            functionName: 'modifyLiquidity',
+            args: [
+                {
+                    currency0: currency0,
+                    currency1: currency1,
+                    fee: fee,
+                    tickSpacing: 60,
+                    hooks: '0x0000000000000000000000000000000000000000',
+                },
+                {
+                    tickLower: -600,
+                    tickUpper: 600,
+                    liquidityDelta: amount0,
+                    salt: 0,
+                },
+                '0x00',
+            ],
+        });
+    };
+
+    return { createPool, swap, approve, addLiquidity };
 };
 
 export default usePoolFactory;

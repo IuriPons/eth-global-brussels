@@ -17,14 +17,13 @@ const usePools = () => {
         abi: PoolFactoryABI,
         functionName: 'getPools',
     });
-    
-    console.log(error)
+
+    console.log(error);
 
     // States
     const [pools, setPools] = useState<Pool[]>([]);
 
     useEffect(() => {
-        
         if (data && Array.isArray(data)) {
             const parse: Pool[] = data.map((pool: any) => {
                 const currency0 = COINS.find(coin => coin.address === pool.currency0);
@@ -40,22 +39,21 @@ const usePools = () => {
             });
 
             setPools(parse);
+        } else {
+            setPools([
+                {
+                    currency0: COINS[0],
+                    currency1: COINS[1],
+                    fee: 300,
+                },
+                {
+                    currency0: COINS[2],
+                    currency1: COINS[1],
+                    fee: 400,
+                    hook: HOOKS[0],
+                },
+            ]);
         }
-        // else {
-        //     setPools([
-        //         {
-        //             currency0: COINS[0],
-        //             currency1: COINS[1],
-        //             fee: 300,
-        //         },
-        //         {
-        //             currency0: COINS[2],
-        //             currency1: COINS[1],
-        //             fee: 400,
-        //             hook: HOOKS[0],
-        //         },
-        //     ]);
-        // }
     }, [data]);
 
     return { pools, error, isLoading };

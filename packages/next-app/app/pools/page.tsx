@@ -28,15 +28,14 @@ const PoolsPage = () => {
     const { pools, error, isLoading } = usePools();
 
     // States
-    const [selectedPair, setSelectedPair] = useState<{ pairToken1: string; pairToken2: string } | null>(null);
+    const [selectedPool, setSelectedPool] = useState<Pool | null>(null);
 
     const handleAddLiquidity = (pool: Pool) => {
-        // const [pairToken1, pairToken2] = pair.split(' / ');
-        // setSelectedPair({ pairToken1, pairToken2 });
+        setSelectedPool(pool);
     };
 
     const handleCloseModal = () => {
-        setSelectedPair(null);
+        setSelectedPool(null);
     };
 
     return (
@@ -78,13 +77,8 @@ const PoolsPage = () => {
                 </div>
             </Box>
 
-            {selectedPair && (
-                <LiquidityPage
-                    open={Boolean(selectedPair)}
-                    onClose={handleCloseModal}
-                    pairToken1={selectedPair.pairToken1}
-                    pairToken2={selectedPair.pairToken2}
-                />
+            {selectedPool && (
+                <LiquidityPage open={Boolean(selectedPool)} onClose={handleCloseModal} pool={selectedPool} />
             )}
         </div>
     );

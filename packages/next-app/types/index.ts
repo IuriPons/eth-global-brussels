@@ -32,3 +32,10 @@ export type Pool = {
     fee: number;
     hook?: Hook;
 };
+
+export type AddLiquidtyInfo = {
+    token0?: Coin;
+    token1?: Coin;
+    amount0: number;
+    amount1: number;
+};
