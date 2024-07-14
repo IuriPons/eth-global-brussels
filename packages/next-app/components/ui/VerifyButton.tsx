@@ -1,11 +1,10 @@
+import { useVerification } from '@/context/AppContext';
 import useVerifyUsers from '@/hooks/useVerifyUsers';
-import { IDKitWidget, IErrorState, ISuccessResult, VerificationLevel } from '@worldcoin/idkit';
-import { useConnectedAccount, useVerification } from '@/context/AppContext';
-import { useState } from 'react';
-import Image from 'next/image';
+import { IDKitWidget, IErrorState, ISuccessResult } from '@worldcoin/idkit';
 import { useAccount } from 'wagmi';
 
 export default function VerifyButton() {
+    const { setSuccess } = useVerification();
     const account = useAccount();
 
     const { verifyUser } = useVerifyUsers();
@@ -19,6 +18,8 @@ export default function VerifyButton() {
             successResult.nullifier_hash,
             successResult.proof as `0x${string}`
         );
+
+        setSuccess(true);
     };
 
     const handleError = (error: IErrorState) => {

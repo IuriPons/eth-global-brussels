@@ -1,8 +1,8 @@
 // app/context/AppContext.tsx
 'use client';
 
-import React, { createContext, useState, useContext, ReactNode, Dispatch, SetStateAction, useEffect } from 'react';
-import { useAccount } from 'wagmi';
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState } from 'react';
+import { Config, useAccount, UseAccountReturnType } from 'wagmi';
 
 // Interface for Verification Message
 interface VerificationMessage {
@@ -16,6 +16,8 @@ interface VerificationMessage {
 interface VerificationContextType {
     verifyMessage: VerificationMessage | null;
     setVerifyMessage: Dispatch<SetStateAction<VerificationMessage | null>>;
+    success: boolean;
+    setSuccess: Dispatch<SetStateAction<boolean>>;
 }
 
 // Creating Verification Context
@@ -24,9 +26,10 @@ const VerificationContext = createContext<VerificationContextType | undefined>(u
 // Provider Component for Verification Context
 const VerificationProvider = ({ children }: { children: ReactNode }) => {
     const [verifyMessage, setVerifyMessage] = useState<VerificationMessage | null>(null);
+    const [success, setSuccess] = useState(false);
 
     return (
-        <VerificationContext.Provider value={{ verifyMessage, setVerifyMessage }}>
+        <VerificationContext.Provider value={{ verifyMessage, setVerifyMessage, success, setSuccess }}>
             {children}
         </VerificationContext.Provider>
     );
@@ -54,7 +57,7 @@ interface CreateHook {
 // Interface for Connected Account
 interface ConnectedAccount {
     address: string | null;
-    status: 'connected' | 'disconnected' | 'connecting';
+    status: 'connected' | 'disconnected' | 'connecting' | 'reconnecting';
 }
 
 // Connected Account Context Types
@@ -70,7 +73,7 @@ const ConnectedAccountContext = createContext<ConnectedAccountContextType | unde
 
 // Provider Component for Connected Account Context
 const ConnectedAccountProvider = ({ children }: { children: ReactNode }) => {
-    const { address, status } = useAccount();
+    const { address, status }: UseAccountReturnType<Config> = useAccount();
     const [connectedAccount, setConnectedAccount] = useState<ConnectedAccount>({
         address: null,
         status: 'disconnected',
@@ -86,7 +89,7 @@ const ConnectedAccountProvider = ({ children }: { children: ReactNode }) => {
 
     // Update the connected account state when address or status changes
     useEffect(() => {
-        setConnectedAccount({ address, status });
+        setConnectedAccount({ address: address as string, status });
     }, [address, status]);
 
     return (
@@ -114,4 +117,4 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
     );
 };
 
-export { AppProvider, useVerification, useConnectedAccount };
+export { AppProvider, useConnectedAccount, useVerification };

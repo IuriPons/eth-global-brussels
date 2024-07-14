@@ -8,7 +8,7 @@ import {Hooks} from "v4-core/libraries/Hooks.sol";
 import {IPoolManager} from "v4-core/interfaces/IPoolManager.sol";
 
 import {HookMiner} from "../script/utils/HookMiner.sol";
-import {Hook} from "../src/Hook.sol";
+import {KYCHook} from "../src/KYCHook.sol";
 import "forge-std/console.sol";
 
 contract HookScript is Script {
@@ -25,11 +25,11 @@ contract HookScript is Script {
 
         // Mine a salt that will produce a hook address with the correct flags
         (address hookAddress, bytes32 salt) =
-            HookMiner.find(CREATE2_DEPLOYER, flags, type(Hook).creationCode, abi.encode(address(GOERLI_POOLMANAGER)));
+            HookMiner.find(CREATE2_DEPLOYER, flags, type(KYCHook).creationCode, abi.encode(address(GOERLI_POOLMANAGER)));
 
         // Deploy the hook using CREATE2
         vm.broadcast();
-        Hook hook = new Hook{salt: salt}(IPoolManager(address(GOERLI_POOLMANAGER)));
+        KYCHook hook = new KYCHook{salt: salt}(IPoolManager(address(GOERLI_POOLMANAGER)));
         require(address(hook) == hookAddress, "CounterScript: hook address mismatch");
 
         console.log("Hook deployed in", hookAddress);

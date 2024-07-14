@@ -14,7 +14,7 @@ import {Hooks} from "v4-core/libraries/Hooks.sol";
 
 import {VerifyUsers} from "./VerifyUsers.sol";
 
-contract Hook is BaseHook {
+contract KYCHook is BaseHook {
     using CurrencyLibrary for Currency;
     using BalanceDeltaLibrary for BalanceDelta;
 

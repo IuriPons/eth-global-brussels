@@ -14,27 +14,18 @@ import {BalanceDelta} from "v4-core/types/BalanceDelta.sol";
 
 import {TickMath} from "v4-core/libraries/TickMath.sol";
 
-interface ISwapRouter {
-    function swap(
-        PoolKey memory key,
-        IPoolManager.SwapParams memory params,
-        PoolSwapTest.TestSettings memory testSettings,
-        bytes memory hookData
-    ) external payable returns (BalanceDelta delta);
-}
-
 contract PoolFactory {
     using PoolIdLibrary for PoolKey;
 
     IPoolManager immutable public manager;
-    ISwapRouter immutable public swapRouter;
+    
     uint256 public countPools;
-
+    PoolKey[] public pools;
     mapping(bytes32 poolId => PoolKey pool) public poolInfos;
+    mapping(address owner => PoolKey[] pools) public poolsByOwner;
 
-    constructor(IPoolManager _manager, address _swapRouter) {
+    constructor(IPoolManager _manager) {
         manager = _manager;
-        swapRouter = ISwapRouter(_swapRouter);
     }
 
     function initPool(
@@ -52,6 +43,8 @@ contract PoolFactory {
         bytes32 poolId = getPoolId(Currency.unwrap(token0), Currency.unwrap(token1));
         poolInfos[poolId] =  _key;
         console.logBytes32(poolId);
+        pools.push(_key);
+        poolsByOwner[msg.sender].push(_key);
     }
 
     function getPoolId(address currency0, address currency1) internal returns(bytes32) {
@@ -59,31 +52,8 @@ contract PoolFactory {
         return keccak256(abi.encodePacked(currency0, currency1));
     }
 
-    function swap(
-        address currency0,
-        address currency1,
-        int256 amount
-    ) external payable returns (BalanceDelta delta) {
-
-        bool zeroForOne;
-        bytes32 poolId = getPoolId(currency0, currency1);
-        console.logBytes32(poolId);
-
-        PoolKey memory pool = poolInfos[poolId];
-
-        zeroForOne = Currency.wrap(currency0) == pool.currency0;
-
-        IPoolManager.SwapParams memory params = IPoolManager.SwapParams({
-            zeroForOne: zeroForOne,
-            amountSpecified: zeroForOne ? amount : -amount,
-            sqrtPriceLimitX96:  zeroForOne ? TickMath.MIN_SQRT_PRICE + 1 : TickMath.MAX_SQRT_PRICE  // unlimited impact
-        });
-
-        PoolSwapTest.TestSettings memory testSettings = PoolSwapTest.TestSettings({takeClaims: false, settleUsingBurn: false});
-
-        bytes memory hookData = new bytes(0);
-        swapRouter.swap(pool, params, testSettings, hookData);
-
+    function getPools() public view returns(PoolKey[] memory) {
+        return pools;
     }
 
 }

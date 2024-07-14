@@ -1,10 +1,10 @@
 'use client';
 
 import VerifyButton from '@/components/ui/VerifyButton';
+import { useVerification } from '@/context/AppContext';
 import { Box, Button, Modal } from '@mui/material';
 import Image from 'next/image';
 import { useState } from 'react';
-import { useConnectedAccount, useVerification } from '@/context/AppContext';
 
 // Hooks
 import usePoolFactory from '@/hooks/usePoolFactory';
@@ -24,7 +24,7 @@ const SwapPage = () => {
     const [isChoosingSellingToken, setIsChoosingSellingToken] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const { verifyMessage } = useVerification();
+    const { success } = useVerification();
 
     const { sellAmount, sellCoin, buyAmount, buyCoin } = swapInfo;
 
@@ -82,7 +82,7 @@ const SwapPage = () => {
             return;
         }
 
-        approve(sellCoin?.address, buyCoin?.address, sellAmount);
+        approve(sellCoin?.address as `0x${string}`, sellAmount);
 
         swap(sellCoin?.address, buyCoin?.address, sellAmount);
     };
@@ -116,7 +116,7 @@ const SwapPage = () => {
                                 <div className='flex items-center space-x-2 selected-token-div'>
                                     <p>{sellCoin.symbol}</p>
                                     <Image
-                                        src={`/${sellCoin.icon}`}
+                                        src={sellCoin.icon}
                                         alt={sellCoin.name}
                                         width={50}
                                         height={50}
@@ -148,7 +148,7 @@ const SwapPage = () => {
                                 <div className='flex items-center space-x-2 selected-token-div'>
                                     <p>{buyCoin.symbol}</p>
                                     <Image
-                                        src={`/${buyCoin.icon}`}
+                                        src={buyCoin.icon}
                                         alt={buyCoin.name}
                                         width={50}
                                         height={50}
@@ -177,16 +177,14 @@ const SwapPage = () => {
                 <div className='center-div'>
                     <p className='last-text1'>TRANSACTION VOLUME</p>
                     <p className='last-text2'>Unlimited token/transaction</p>
-                    {verifyMessage ? (
-                        <button className='verified-button' onClick={open}>
-                        <img src='/worldcoinlogo-green.gif' alt='Worldcoin Logo' className='wc-logo' />
-                        You are human!
-                    </button>
-                ):
-                        (<VerifyButton />)
-                }
-
-
+                    {success ? (
+                        <button className='verified-button'>
+                            <Image src='/worldcoinlogo-green.gif' alt='Worldcoin Logo' className='wc-logo' />
+                            You are human!
+                        </button>
+                    ) : (
+                        <VerifyButton />
+                    )}
                 </div>
             </Box>
 
@@ -220,7 +218,7 @@ const SwapPage = () => {
                                 onClick={() => handleTokenSelect(coin.symbol)}
                             >
                                 <Image
-                                    src={`/${coin.icon}`}
+                                    src={coin.icon}
                                     alt={coin.symbol}
                                     width={40}
                                     height={40}

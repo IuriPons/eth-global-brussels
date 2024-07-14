@@ -2,8 +2,11 @@ const PoolFactoryABI = [
     {
         type: 'constructor',
         inputs: [
-            { name: '_manager', type: 'address', internalType: 'contract IPoolManager' },
-            { name: '_swapRouter', type: 'address', internalType: 'address' },
+            {
+                name: '_manager',
+                type: 'address',
+                internalType: 'contract IPoolManager',
+            },
         ],
         stateMutability: 'nonpayable',
     },
@@ -11,19 +14,89 @@ const PoolFactoryABI = [
         type: 'function',
         name: 'countPools',
         inputs: [],
-        outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
+        outputs: [
+            {
+                name: '',
+                type: 'uint256',
+                internalType: 'uint256',
+            },
+        ],
+        stateMutability: 'view',
+    },
+    {
+        type: 'function',
+        name: 'getPools',
+        inputs: [],
+        outputs: [
+            {
+                name: '',
+                type: 'tuple[]',
+                internalType: 'struct PoolKey[]',
+                components: [
+                    {
+                        name: 'currency0',
+                        type: 'address',
+                        internalType: 'Currency',
+                    },
+                    {
+                        name: 'currency1',
+                        type: 'address',
+                        internalType: 'Currency',
+                    },
+                    {
+                        name: 'fee',
+                        type: 'uint24',
+                        internalType: 'uint24',
+                    },
+                    {
+                        name: 'tickSpacing',
+                        type: 'int24',
+                        internalType: 'int24',
+                    },
+                    {
+                        name: 'hooks',
+                        type: 'address',
+                        internalType: 'contract IHooks',
+                    },
+                ],
+            },
+        ],
         stateMutability: 'view',
     },
     {
         type: 'function',
         name: 'initPool',
         inputs: [
-            { name: '_currency0', type: 'address', internalType: 'Currency' },
-            { name: '_currency1', type: 'address', internalType: 'Currency' },
-            { name: 'hooks', type: 'address', internalType: 'contract IHooks' },
-            { name: 'fee', type: 'uint24', internalType: 'uint24' },
-            { name: 'sqrtPriceX96', type: 'uint160', internalType: 'uint160' },
-            { name: 'initData', type: 'bytes', internalType: 'bytes' },
+            {
+                name: '_currency0',
+                type: 'address',
+                internalType: 'Currency',
+            },
+            {
+                name: '_currency1',
+                type: 'address',
+                internalType: 'Currency',
+            },
+            {
+                name: 'hooks',
+                type: 'address',
+                internalType: 'contract IHooks',
+            },
+            {
+                name: 'fee',
+                type: 'uint24',
+                internalType: 'uint24',
+            },
+            {
+                name: 'sqrtPriceX96',
+                type: 'uint160',
+                internalType: 'uint160',
+            },
+            {
+                name: 'initData',
+                type: 'bytes',
+                internalType: 'bytes',
+            },
         ],
         outputs: [
             {
@@ -31,14 +104,38 @@ const PoolFactoryABI = [
                 type: 'tuple',
                 internalType: 'struct PoolKey',
                 components: [
-                    { name: 'currency0', type: 'address', internalType: 'Currency' },
-                    { name: 'currency1', type: 'address', internalType: 'Currency' },
-                    { name: 'fee', type: 'uint24', internalType: 'uint24' },
-                    { name: 'tickSpacing', type: 'int24', internalType: 'int24' },
-                    { name: 'hooks', type: 'address', internalType: 'contract IHooks' },
+                    {
+                        name: 'currency0',
+                        type: 'address',
+                        internalType: 'Currency',
+                    },
+                    {
+                        name: 'currency1',
+                        type: 'address',
+                        internalType: 'Currency',
+                    },
+                    {
+                        name: 'fee',
+                        type: 'uint24',
+                        internalType: 'uint24',
+                    },
+                    {
+                        name: 'tickSpacing',
+                        type: 'int24',
+                        internalType: 'int24',
+                    },
+                    {
+                        name: 'hooks',
+                        type: 'address',
+                        internalType: 'contract IHooks',
+                    },
                 ],
             },
-            { name: 'id', type: 'bytes32', internalType: 'PoolId' },
+            {
+                name: 'id',
+                type: 'bytes32',
+                internalType: 'PoolId',
+            },
         ],
         stateMutability: 'nonpayable',
     },
@@ -46,38 +143,135 @@ const PoolFactoryABI = [
         type: 'function',
         name: 'manager',
         inputs: [],
-        outputs: [{ name: '', type: 'address', internalType: 'contract IPoolManager' }],
+        outputs: [
+            {
+                name: '',
+                type: 'address',
+                internalType: 'contract IPoolManager',
+            },
+        ],
         stateMutability: 'view',
     },
     {
         type: 'function',
         name: 'poolInfos',
-        inputs: [{ name: 'poolId', type: 'bytes32', internalType: 'bytes32' }],
+        inputs: [
+            {
+                name: 'poolId',
+                type: 'bytes32',
+                internalType: 'bytes32',
+            },
+        ],
         outputs: [
-            { name: 'currency0', type: 'address', internalType: 'Currency' },
-            { name: 'currency1', type: 'address', internalType: 'Currency' },
-            { name: 'fee', type: 'uint24', internalType: 'uint24' },
-            { name: 'tickSpacing', type: 'int24', internalType: 'int24' },
-            { name: 'hooks', type: 'address', internalType: 'contract IHooks' },
+            {
+                name: 'currency0',
+                type: 'address',
+                internalType: 'Currency',
+            },
+            {
+                name: 'currency1',
+                type: 'address',
+                internalType: 'Currency',
+            },
+            {
+                name: 'fee',
+                type: 'uint24',
+                internalType: 'uint24',
+            },
+            {
+                name: 'tickSpacing',
+                type: 'int24',
+                internalType: 'int24',
+            },
+            {
+                name: 'hooks',
+                type: 'address',
+                internalType: 'contract IHooks',
+            },
         ],
         stateMutability: 'view',
     },
     {
         type: 'function',
-        name: 'swap',
+        name: 'pools',
         inputs: [
-            { name: 'currency0', type: 'address', internalType: 'address' },
-            { name: 'currency1', type: 'address', internalType: 'address' },
-            { name: 'amount', type: 'int256', internalType: 'int256' },
+            {
+                name: '',
+                type: 'uint256',
+                internalType: 'uint256',
+            },
         ],
-        outputs: [{ name: 'delta', type: 'int256', internalType: 'BalanceDelta' }],
-        stateMutability: 'payable',
+        outputs: [
+            {
+                name: 'currency0',
+                type: 'address',
+                internalType: 'Currency',
+            },
+            {
+                name: 'currency1',
+                type: 'address',
+                internalType: 'Currency',
+            },
+            {
+                name: 'fee',
+                type: 'uint24',
+                internalType: 'uint24',
+            },
+            {
+                name: 'tickSpacing',
+                type: 'int24',
+                internalType: 'int24',
+            },
+            {
+                name: 'hooks',
+                type: 'address',
+                internalType: 'contract IHooks',
+            },
+        ],
+        stateMutability: 'view',
     },
     {
         type: 'function',
-        name: 'swapRouter',
-        inputs: [],
-        outputs: [{ name: '', type: 'address', internalType: 'contract ISwapRouter' }],
+        name: 'poolsByOwner',
+        inputs: [
+            {
+                name: 'owner',
+                type: 'address',
+                internalType: 'address',
+            },
+            {
+                name: '',
+                type: 'uint256',
+                internalType: 'uint256',
+            },
+        ],
+        outputs: [
+            {
+                name: 'currency0',
+                type: 'address',
+                internalType: 'Currency',
+            },
+            {
+                name: 'currency1',
+                type: 'address',
+                internalType: 'Currency',
+            },
+            {
+                name: 'fee',
+                type: 'uint24',
+                internalType: 'uint24',
+            },
+            {
+                name: 'tickSpacing',
+                type: 'int24',
+                internalType: 'int24',
+            },
+            {
+                name: 'hooks',
+                type: 'address',
+                internalType: 'contract IHooks',
+            },
+        ],
         stateMutability: 'view',
     },
 ];

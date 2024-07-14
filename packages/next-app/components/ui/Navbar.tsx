@@ -1,19 +1,15 @@
 'use client';
 
 import ConnectButton from '@/components/ui/ConnectButton';
-import VerifyButton from '@/components/ui/VerifyButton';
-import { useConnectedAccount, useVerification } from '@/context/AppContext';
 import { AppBar, Toolbar } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
-    const { verifyMessage } = useVerification();
-    const { connectedAccount } = useConnectedAccount();
     const pathname = usePathname();
 
-    const getNavButtonClass = path => {
+    const getNavButtonClass = (path: string) => {
         return pathname === path ? 'nav-button' : 'nav-button-inactive';
     };
 
