@@ -29,6 +29,7 @@ body {
     background-position: bottom center;
     background-size: auto;
     font-size: 18px;
+    overflow-y: hidden;
 }
 
 input:focus {
@@ -53,7 +54,8 @@ button:hover {
     margin-bottom: 15px;
 }
 
-.verify-button {
+.verify-button,
+.verified-button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -71,6 +73,11 @@ button:hover {
     text-decoration: none;
     font-size: 16px;
     padding-right: 32px;
+}
+
+.verified-button {
+    color: #82F27E;
+    background-color:#000000;
 }
 
 .verify-button:hover {
