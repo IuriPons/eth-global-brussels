@@ -24,7 +24,7 @@ const SwapPage = () => {
     const [isChoosingSellingToken, setIsChoosingSellingToken] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const { verifyMessage } = useVerification();
+    const { success } = useVerification();
 
     const { sellAmount, sellCoin, buyAmount, buyCoin } = swapInfo;
 
@@ -177,7 +177,7 @@ const SwapPage = () => {
                 <div className='center-div'>
                     <p className='last-text1'>TRANSACTION VOLUME</p>
                     <p className='last-text2'>Unlimited token/transaction</p>
-                    {verifyMessage ? (
+                    {success ? (
                         <button className='verified-button' onClick={open}>
                             <img src='/worldcoinlogo-green.gif' alt='Worldcoin Logo' className='wc-logo' />
                             You are human!

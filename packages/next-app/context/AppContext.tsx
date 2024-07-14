@@ -1,7 +1,7 @@
 // app/context/AppContext.tsx
 'use client';
 
-import React, { createContext, useState, useContext, ReactNode, Dispatch, SetStateAction, useEffect } from 'react';
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
 
 // Interface for Verification Message
@@ -16,6 +16,8 @@ interface VerificationMessage {
 interface VerificationContextType {
     verifyMessage: VerificationMessage | null;
     setVerifyMessage: Dispatch<SetStateAction<VerificationMessage | null>>;
+    success: boolean;
+    setSuccess: Dispatch<SetStateAction<boolean>>;
 }
 
 // Creating Verification Context
@@ -24,9 +26,10 @@ const VerificationContext = createContext<VerificationContextType | undefined>(u
 // Provider Component for Verification Context
 const VerificationProvider = ({ children }: { children: ReactNode }) => {
     const [verifyMessage, setVerifyMessage] = useState<VerificationMessage | null>(null);
+    const [success, setSuccess] = useState(false);
 
     return (
-        <VerificationContext.Provider value={{ verifyMessage, setVerifyMessage }}>
+        <VerificationContext.Provider value={{ verifyMessage, setVerifyMessage, success, setSuccess }}>
             {children}
         </VerificationContext.Provider>
     );
@@ -114,4 +117,4 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
     );
 };
 
-export { AppProvider, useVerification, useConnectedAccount };
+export { AppProvider, useConnectedAccount, useVerification };
