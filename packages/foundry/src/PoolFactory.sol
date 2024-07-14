@@ -18,16 +18,14 @@ contract PoolFactory {
     using PoolIdLibrary for PoolKey;
 
     IPoolManager immutable public manager;
-    ISwapRouter immutable public swapRouter;
     
     uint256 public countPools;
     PoolKey[] public pools;
     mapping(bytes32 poolId => PoolKey pool) public poolInfos;
     mapping(address owner => PoolKey[] pools) public poolsByOwner;
 
-    constructor(IPoolManager _manager, address _swapRouter) {
+    constructor(IPoolManager _manager) {
         manager = _manager;
-        swapRouter = ISwapRouter(_swapRouter);
     }
 
     function initPool(

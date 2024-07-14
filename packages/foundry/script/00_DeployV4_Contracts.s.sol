@@ -38,7 +38,7 @@ contract CreatePoolScriptWithHook is Script, Deployers {
 
         console.log("Deploy Pool Factory");
 
-        PoolFactory poolFactory = new PoolFactory(manager, address(swapRouter));
+        PoolFactory poolFactory = new PoolFactory(manager);
 
         console.log("PoolFactory Address:", address(poolFactory));
         
