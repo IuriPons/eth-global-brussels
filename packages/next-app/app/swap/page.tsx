@@ -4,6 +4,7 @@ import VerifyButton from '@/components/ui/VerifyButton';
 import { Box, Button, Modal } from '@mui/material';
 import Image from 'next/image';
 import { useState } from 'react';
+import { useConnectedAccount, useVerification } from '@/context/AppContext';
 
 // Hooks
 import usePoolFactory from '@/hooks/usePoolFactory';
@@ -22,6 +23,8 @@ const SwapPage = () => {
     const [swapInfo, setSwapInfo] = useState<SwapInfo>({});
     const [isChoosingSellingToken, setIsChoosingSellingToken] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const { verifyMessage } = useVerification();
 
     const { sellAmount, sellCoin, buyAmount, buyCoin } = swapInfo;
 
@@ -174,7 +177,16 @@ const SwapPage = () => {
                 <div className='center-div'>
                     <p className='last-text1'>TRANSACTION VOLUME</p>
                     <p className='last-text2'>Unlimited token/transaction</p>
-                    <VerifyButton />
+                    {verifyMessage ? (
+                        <button className='verified-button' onClick={open}>
+                        <img src='/worldcoinlogo-green.gif' alt='Worldcoin Logo' className='wc-logo' />
+                        You are human!
+                    </button>
+                ):
+                        (<VerifyButton />)
+                }
+
+
                 </div>
             </Box>
 
