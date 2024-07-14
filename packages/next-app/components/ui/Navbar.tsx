@@ -25,7 +25,7 @@ export default function Navbar() {
                         <Link href='/' className='logo'>
                             <Image src='/applogo.png' alt='App Logo' width={100} height={100} />
                         </Link>
-                        <Link href='/swap' passHref>
+                        <Link href='/' passHref>
                             <button className={getNavButtonClass('/swap')}>Trade</button>
                         </Link>
                         <Link href='/create' passHref>
